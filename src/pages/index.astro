@@ -1,0 +1,25 @@
+---
+const englishHome = `${import.meta.env.BASE_URL}en/`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="refresh" content={`0;url=${englishHome}`} />
+    <title>Loonen Consulting</title>
+    <meta
+      name="description"
+      content="Independent consulting for German Mittelstand companies evaluating renewable energy opportunities in Northeast Brazil."
+    />
+    <link rel="canonical" href="https://loonenconsulting.com/en/" />
+  </head>
+  <body>
+    <main>
+      <h1>Loonen Consulting</h1>
+      <p>If you are not redirected, continue to the English website:</p>
+      <p><a href={englishHome}>Continue to the English site</a></p>
+    </main>
+  </body>
+</html>

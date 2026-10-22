@@ -1,0 +1,191 @@
+---
+import "../styles/global.css";
+
+interface NavItem {
+  label: string;
+  href: string;
+}
+
+interface LanguageLink {
+  label: "EN" | "DE" | "PT-BR";
+  href: string;
+  current?: boolean;
+}
+
+interface Props {
+  lang: "en" | "de" | "pt-BR";
+  title: string;
+  description: string;
+  canonicalPath: string;
+  homePath: string;
+  homeLabel: string;
+  navigation: NavItem[];
+  languageLinks: LanguageLink[];
+  languageLabel: string;
+  skipLabel: string;
+}
+
+const {
+  lang,
+  title,
+  description,
+  canonicalPath,
+  homePath,
+  homeLabel,
+  navigation,
+  languageLinks,
+  languageLabel,
+  skipLabel,
+} = Astro.props;
+
+const base = import.meta.env.BASE_URL;
+const withBase = (path: string) => `${base}${path.replace(/^\/+/, "")}`;
+const canonical = Astro.site
+  ? new URL(withBase(canonicalPath), Astro.site)
+  : undefined;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#F7F5F2" />
+    <title>{title}</title>
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">{skipLabel}</a>
+
+    <header class="site-header">
+      <a class="wordmark" href={withBase(homePath)}>{homeLabel}</a>
+
+      <nav aria-label="Main navigation">
+        <ul class="nav-list">
+          {navigation.map((item) => (
+            <li><a href={withBase(item.href)}>{item.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      <nav class="language-nav" aria-label={languageLabel}>
+        {languageLinks.map((language) => (
+          <a
+            href={withBase(language.href)}
+            lang={language.label === "PT-BR" ? "pt-BR" : language.label.toLowerCase()}
+            aria-current={language.current ? "page" : undefined}
+          >
+            {language.label}
+          </a>
+        ))}
+      </nav>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <a href="mailto:info@loonenconsulting.com">info@loonenconsulting.com</a>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .skip-link {
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    z-index: 2;
+    padding: 0.65rem 0.9rem;
+    transform: translateY(-200%);
+    background: var(--color-paper);
+    color: var(--color-ink);
+  }
+
+  .skip-link:focus {
+    transform: translateY(0);
+  }
+
+  .site-header,
+  .site-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.25rem max(1.25rem, calc((100% - 72rem) / 2));
+  }
+
+  .site-header {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .wordmark {
+    color: var(--color-ink);
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .nav-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nav-list a,
+  .language-nav a {
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+
+  .language-nav {
+    display: flex;
+    gap: 0.65rem;
+    white-space: nowrap;
+  }
+
+  .language-nav a[aria-current="page"] {
+    color: var(--color-ink);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.3em;
+  }
+
+  .site-footer {
+    margin-top: 4rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  @media (max-width: 760px) {
+    .site-header {
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 0.75rem 1rem;
+    }
+
+    .site-header > nav {
+      order: 3;
+      width: 100%;
+    }
+
+    .nav-list {
+      gap: 0.5rem 1rem;
+    }
+
+    .language-nav {
+      margin-left: auto;
+    }
+
+    .site-footer {
+      padding-block: 1.25rem;
+    }
+  }
+</style>

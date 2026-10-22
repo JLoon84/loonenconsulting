@@ -1,0 +1,55 @@
+:root {
+  color-scheme: light;
+  --color-teal: #2c5f6a;
+  --color-orange: #ca6641;
+  --color-paper: #f7f5f2;
+  --color-ink: #1e1e1e;
+  --color-burgundy: #522a27;
+  --color-border: #c9c2bc;
+  --font-body: Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  line-height: 1.6;
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  color: var(--color-teal);
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  color: var(--color-burgundy);
+}
+
+a:focus-visible {
+  outline: 3px solid var(--color-burgundy);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+main {
+  min-height: 65vh;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
