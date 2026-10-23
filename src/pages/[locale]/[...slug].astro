@@ -1,6 +1,8 @@
 ---
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import { homeContent } from "../../data/home";
+// UPDATED: Import the localized Services page content.
+import { servicesContent } from "../../data/services";
 import {
   locales,
   pagePath,
@@ -81,6 +83,25 @@ const pageMessages: Record<Locale, Record<Page, string>> = {
   },
 };
 
+// UPDATED: Localized labels for the service descriptions.
+const serviceLabels = {
+  en: {
+    when: "When it is relevant",
+    work: "The work involved",
+    deliverable: "What the work provides",
+  },
+  de: {
+    when: "Wann es sinnvoll ist",
+    work: "Was die Arbeit umfasst",
+    deliverable: "Was die Arbeit liefert",
+  },
+  "pt-BR": {
+    when: "Quando faz sentido",
+    work: "O que o trabalho envolve",
+    deliverable: "O que o trabalho oferece",
+  },
+} as const;
+
 export function getStaticPaths() {
   return locales.flatMap((locale) => {
     const pages = Object.keys(site[locale].pages) as Page[];
@@ -112,9 +133,12 @@ interface Props {
 
 const { locale, page } = Astro.props;
 const localeData = site[locale];
-
-// Load the translated homepage copy and base-aware links.
 const home = homeContent[locale];
+
+// UPDATED: Select the Services content and labels for this language.
+const services = servicesContent[locale];
+const labels = serviceLabels[locale];
+
 const base = import.meta.env.BASE_URL;
 const withBase = (path: string) => `${base}${path.replace(/^\/+/, "")}`;
 
@@ -142,7 +166,6 @@ const languageLinks = locales.map((language) => ({
   navigation={navigation}
   languageLinks={languageLinks}
 >
-  <!-- UPDATED: Render the complete localized homepage when this is the home route. -->
   {page === "home" ? (
     <>
       <section class="home-hero page-shell" aria-labelledby="page-title">
@@ -154,7 +177,10 @@ const languageLinks = locales.map((language) => ({
         </a>
       </section>
 
-      <section class="content-section decision-section" aria-labelledby="decision-title">
+      <section
+        class="content-section decision-section"
+        aria-labelledby="decision-title"
+      >
         <div class="content-inner">
           <h2 id="decision-title">{home.decisionTitle}</h2>
           <p>{home.decisionText}</p>
@@ -183,7 +209,10 @@ const languageLinks = locales.map((language) => ({
         </div>
       </section>
 
-      <section class="content-section about-preview" aria-labelledby="about-title">
+      <section
+        class="content-section about-preview"
+        aria-labelledby="about-title"
+      >
         <div class="content-inner">
           <h2 id="about-title">{home.aboutTitle}</h2>
           <p>{home.aboutText}</p>
@@ -191,21 +220,79 @@ const languageLinks = locales.map((language) => ({
         </div>
       </section>
 
-      <section class="content-section insights-preview" aria-labelledby="insights-title">
+      <section
+        class="content-section insights-preview"
+        aria-labelledby="insights-title"
+      >
         <div class="content-inner">
           <h2 id="insights-title">{home.insightsTitle}</h2>
           <p>{home.insightsText}</p>
-          <a href={withBase(pagePath(locale, "insights"))}>{home.insightsLink}</a>
+          <a href={withBase(pagePath(locale, "insights"))}>
+            {home.insightsLink}
+          </a>
         </div>
       </section>
 
-      <section class="content-section contact-section" aria-labelledby="contact-title">
+      <section
+        class="content-section contact-section"
+        aria-labelledby="contact-title"
+      >
         <div class="content-inner">
           <h2 id="contact-title">{home.contactTitle}</h2>
           <p>{home.contactText}</p>
           <p>{home.contactDetails}</p>
           <a class="primary-link" href="mailto:info@loonenconsulting.com">
             {home.contactLink}
+          </a>
+        </div>
+      </section>
+    </>
+  ) : page === "services" ? (
+    <>
+      {/* UPDATED: Replace the Services placeholder with the full page. */}
+      <section class="page-shell" aria-labelledby="page-title">
+        <p class="eyebrow">{localeData.homeLabel}</p>
+        <h1 id="page-title">{services.title}</h1>
+        <p class="hero-intro">{services.introduction}</p>
+      </section>
+
+      <div class="content-inner service-details">
+        {services.services.map((service, index) => (
+          <section
+            class="service-detail"
+            aria-labelledby={`service-title-${index}`}
+          >
+            <div>
+              <h2 id={`service-title-${index}`}>{service.title}</h2>
+              <p class="service-question">{service.question}</p>
+            </div>
+
+            <dl>
+              <dt>{labels.when}</dt>
+              <dd>{service.when}</dd>
+
+              <dt>{labels.work}</dt>
+              <dd>{service.work}</dd>
+
+              <dt>{labels.deliverable}</dt>
+              <dd>{service.deliverable}</dd>
+            </dl>
+          </section>
+        ))}
+      </div>
+
+      <section
+        class="content-section decision-section"
+        aria-labelledby="approach-title"
+      >
+        <div class="content-inner">
+          <h2 id="approach-title">{services.approachTitle}</h2>
+          <p>{services.approachText}</p>
+          <a
+            class="primary-link"
+            href={withBase(pagePath(locale, "contact"))}
+          >
+            {services.contactLink}
           </a>
         </div>
       </section>
@@ -250,7 +337,6 @@ const languageLinks = locales.map((language) => ({
     font-size: clamp(1.1rem, 2vw, 1.35rem);
   }
 
-  /* UPDATED: Homepage section layout and responsive service list. */
   .content-inner {
     width: min(100% - 2.5rem, 68rem);
     margin: 0 auto;
@@ -343,10 +429,54 @@ const languageLinks = locales.map((language) => ({
     color: var(--color-burgundy);
   }
 
+  /* UPDATED: Detailed Services page layout. */
+  .service-details {
+    padding-bottom: clamp(3.5rem, 8vw, 6rem);
+  }
+
+  .service-detail {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+    gap: clamp(1.5rem, 5vw, 4rem);
+    padding-block: 2.5rem;
+    border-top: 2px solid var(--color-orange);
+  }
+
+  .service-detail h2 {
+    margin: 0 0 1rem;
+    color: var(--color-teal);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+  }
+
+  .service-detail dl {
+    margin: 0;
+  }
+
+  .service-detail dt {
+    margin-bottom: 0.35rem;
+    font-weight: 700;
+  }
+
+  .service-detail dd {
+    margin: 0 0 1.5rem;
+  }
+
+  .service-detail dd:last-child {
+    margin-bottom: 0;
+  }
+
   @media (max-width: 760px) {
     .service-list {
       grid-template-columns: 1fr;
       gap: 2rem;
+    }
+
+    /* UPDATED: Stack each service description on smaller screens. */
+    .service-detail {
+      grid-template-columns: 1fr;
+      gap: 1rem;
     }
   }
 </style>
