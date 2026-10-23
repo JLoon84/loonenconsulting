@@ -1,0 +1,272 @@
+---
+// NEW: Insights index backed by the Markdown collection.
+import { getCollection } from "astro:content";
+import {
+  insightsContent,
+  articleLanguageNames,
+} from "../data/insights";
+import { locales, pagePath, type Locale } from "../data/site";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = insightsContent[locale];
+
+const base = import.meta.env.BASE_URL;
+const withBase = (path: string) => `${base}${path.replace(/^\/+/, "")}`;
+
+// NEW: Drafts never enter the public article list.
+const publishedPosts = await getCollection(
+  "posts",
+  ({ data }) => !data.draft,
+);
+
+// NEW: Validate the date assumption before sorting or displaying articles.
+const datedPosts = publishedPosts.map((post) => {
+  if (!post.data.publishedAt) {
+    throw new Error(`Published article "${post.id}" needs publishedAt.`);
+  }
+
+  return {
+    post,
+    publishedAt: post.data.publishedAt,
+  };
+});
+
+const posts = datedPosts
+  .filter(({ post }) => post.data.language === locale)
+  .sort(
+    (first, second) =>
+      second.publishedAt.getTime() - first.publishedAt.getTime(),
+  );
+
+// NEW: Offer other editions explicitly instead of mixing article languages.
+const otherLanguages = locales.filter(
+  (language) =>
+    language !== locale &&
+    datedPosts.some(({ post }) => post.data.language === language),
+);
+
+const hasOtherLanguages = otherLanguages.length > 0;
+
+const dateFormatter = new Intl.DateTimeFormat(locale, {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  timeZone: "UTC",
+});
+---
+
+<header class="insights-header">
+  <p class="eyebrow">Loonen Consulting</p>
+  <h1>{copy.title}</h1>
+  <p class="introduction">{copy.introduction}</p>
+</header>
+
+<div class="insights-content">
+  {posts.length > 0 ? (
+    <ul class="article-list">
+      {posts.map(({ post, publishedAt }) => (
+        <li>
+          <article>
+            <p class="article-meta">
+              <span>{post.data.author}</span>
+              <span aria-hidden="true"> · </span>
+              <time datetime={publishedAt.toISOString()}>
+                {dateFormatter.format(publishedAt)}
+              </time>
+            </p>
+
+            <h2>
+              <a
+                href={withBase(
+                  `${pagePath(locale, "insights")}${post.data.urlSlug}/`,
+                )}
+              >
+                {post.data.title}
+              </a>
+            </h2>
+
+            <p class="article-summary">{post.data.summary}</p>
+
+            <a
+              class="article-link"
+              href={withBase(
+                `${pagePath(locale, "insights")}${post.data.urlSlug}/`,
+              )}
+            >
+              {copy.readArticle}
+              <span class="visually-hidden">: {post.data.title}</span>
+            </a>
+          </article>
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <section class="empty-state" aria-labelledby="empty-heading">
+      <h2 id="empty-heading">
+        {hasOtherLanguages ? copy.unavailableTitle : copy.emptyTitle}
+      </h2>
+      <p>
+        {hasOtherLanguages ? copy.unavailableText : copy.emptyText}
+      </p>
+    </section>
+  )}
+
+  {hasOtherLanguages && (
+    <section class="other-editions" aria-labelledby="editions-heading">
+      <h2 id="editions-heading">{copy.otherLanguages}</h2>
+
+      <ul>
+        {otherLanguages.map((language) => (
+          <li>
+            <a
+              href={withBase(pagePath(language, "insights"))}
+              lang={language}
+              hreflang={language}
+            >
+              {articleLanguageNames[language]}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <aside class="contact-invitation">
+    <p>{copy.contactText}</p>
+    <a href={withBase(pagePath(locale, "contact"))}>
+      {copy.contactLink}
+    </a>
+  </aside>
+</div>
+
+<style>
+  /* NEW: Scoped layout for published articles and the empty state. */
+  .insights-header {
+    width: min(100% - 2.5rem, 72rem);
+    margin: 0 auto;
+    padding-block: clamp(4rem, 10vw, 8rem);
+  }
+
+  .eyebrow {
+    margin: 0 0 1rem;
+    color: var(--color-teal);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    margin: 0;
+    color: var(--color-teal);
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+
+  .introduction {
+    max-width: 48rem;
+    margin: 1.75rem 0 0;
+    font-size: clamp(1.2rem, 2.5vw, 1.65rem);
+  }
+
+  .insights-content {
+    width: min(100% - 2.5rem, 68rem);
+    margin: 0 auto;
+    padding-bottom: clamp(3.5rem, 8vw, 6rem);
+  }
+
+  h2 {
+    margin: 0 0 1rem;
+    color: var(--color-teal);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    line-height: 1.2;
+    text-wrap: balance;
+    overflow-wrap: break-word;
+  }
+
+  .article-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .article-list > li {
+    padding-block: 2.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .article-list article {
+    max-width: 48rem;
+  }
+
+  .article-meta {
+    margin: 0 0 1rem;
+    font-size: 0.95rem;
+  }
+
+  .article-summary {
+    max-width: 65ch;
+  }
+
+  .article-link {
+    display: inline-block;
+    padding-block: 0.75rem;
+    font-weight: 700;
+  }
+
+  .empty-state {
+    padding-block: 2rem;
+    border-top: 3px solid var(--color-orange);
+  }
+
+  .empty-state p {
+    max-width: 60ch;
+  }
+
+  .other-editions {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .other-editions ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 2rem;
+    padding-left: 1.25rem;
+  }
+
+  .other-editions a {
+    display: inline-block;
+    padding-block: 0.5rem;
+  }
+
+  .contact-invitation {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .contact-invitation a {
+    display: inline-block;
+    padding-block: 0.75rem;
+    font-weight: 700;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>

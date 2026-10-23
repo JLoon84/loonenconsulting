@@ -3,9 +3,10 @@ import SiteLayout from "../../layouts/SiteLayout.astro";
 import HomePage from "../../components/HomePage.astro";
 import ServicesPage from "../../components/ServicesPage.astro";
 import AboutPage from "../../components/AboutPage.astro";
-
-// UPDATED: Import the dedicated Contact page.
 import ContactPage from "../../components/ContactPage.astro";
+
+// UPDATED: Import the collection-backed Insights index.
+import InsightsPage from "../../components/InsightsPage.astro";
 
 import {
   locales,
@@ -63,13 +64,6 @@ const pageDescriptions: Record<Locale, Record<Page, string>> = {
   },
 };
 
-// UPDATED: Only Insights still needs an empty-state message.
-const insightsMessages = {
-  en: "Janne’s articles are being prepared for publication here.",
-  de: "Jannes Beiträge werden für die Veröffentlichung hier vorbereitet.",
-  "pt-BR": "Os artigos de Janne estão sendo preparados para publicação aqui.",
-} as const;
-
 export function getStaticPaths() {
   return locales.flatMap((locale) => {
     const pages = Object.keys(site[locale].pages) as Page[];
@@ -112,11 +106,28 @@ const languageLinks = locales.map((language) => ({
   href: pagePath(language, page),
   current: language === locale,
 }));
+
+// UPDATED: Each main page now has a dedicated component.
+const pageComponents = {
+  home: HomePage,
+  services: ServicesPage,
+  about: AboutPage,
+  insights: InsightsPage,
+  contact: ContactPage,
+};
+
+const PageComponent = pageComponents[page];
+
+// UPDATED: Avoid repeating the brand name in the homepage title.
+const title =
+  page === "home"
+    ? pageTitles[locale][page]
+    : `${pageTitles[locale][page]} | Loonen Consulting`;
 ---
 
 <SiteLayout
   lang={localeData.lang}
-  title={`${pageTitles[locale][page]} | Loonen Consulting`}
+  title={title}
   description={pageDescriptions[locale][page]}
   canonicalPath={pagePath(locale, page)}
   homePath={pagePath(locale, "home")}
@@ -126,53 +137,8 @@ const languageLinks = locales.map((language) => ({
   navigation={navigation}
   languageLinks={languageLinks}
 >
-  <!-- UPDATED: Contact now renders its dedicated component. -->
-  {page === "home" ? (
-    <HomePage locale={locale} />
-  ) : page === "services" ? (
-    <ServicesPage locale={locale} />
-  ) : page === "about" ? (
-    <AboutPage locale={locale} />
-  ) : page === "contact" ? (
-    <ContactPage locale={locale} />
-  ) : (
-    <section class="page-shell" aria-labelledby="page-title">
-      <p class="eyebrow">{localeData.homeLabel}</p>
-      <h1 id="page-title">{pageTitles[locale][page]}</h1>
-      <p class="page-message">{insightsMessages[locale]}</p>
-    </section>
-  )}
+  <!-- UPDATED: Render the selected page component. -->
+  <PageComponent locale={locale} />
 </SiteLayout>
 
-<style>
-  /* UPDATED: These styles now apply only to the Insights empty state. */
-  .page-shell {
-    width: min(100% - 2.5rem, 72rem);
-    margin: 0 auto;
-    padding: clamp(4rem, 10vw, 8rem) 0;
-  }
-
-  .eyebrow {
-    margin: 0 0 1rem;
-    color: var(--color-teal);
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  h1 {
-    max-width: 18ch;
-    margin: 0;
-    color: var(--color-teal);
-    font-size: clamp(2.5rem, 6vw, 5rem);
-    line-height: 1.08;
-    text-wrap: balance;
-  }
-
-  .page-message {
-    max-width: 42rem;
-    margin-top: 2rem;
-    font-size: clamp(1.1rem, 2vw, 1.35rem);
-  }
-</style>
+<!-- UPDATED: Page-specific styles now live in their respective components. -->
