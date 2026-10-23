@@ -1,8 +1,13 @@
 ---
 import SiteLayout from "../../layouts/SiteLayout.astro";
-import { locales, pagePath, site, type Locale, type Page } from "../../data/site";
-
-const locales = ["en", "de", "pt-BR"] as const;
+import { homeContent } from "../../data/home";
+import {
+  locales,
+  pagePath,
+  site,
+  type Locale,
+  type Page,
+} from "../../data/site";
 
 const pageTitles: Record<Locale, Record<Page, string>> = {
   en: {
@@ -77,7 +82,6 @@ const pageMessages: Record<Locale, Record<Page, string>> = {
 };
 
 export function getStaticPaths() {
-  const staticLocales = ["en", "de", "pt-BR"] as const;
   return locales.flatMap((locale) => {
     const pages = Object.keys(site[locale].pages) as Page[];
     const folder = locale === "pt-BR" ? "pt-br" : locale;
@@ -109,6 +113,11 @@ interface Props {
 const { locale, page } = Astro.props;
 const localeData = site[locale];
 
+// Load the translated homepage copy and base-aware links.
+const home = homeContent[locale];
+const base = import.meta.env.BASE_URL;
+const withBase = (path: string) => `${base}${path.replace(/^\/+/, "")}`;
+
 const navigation = localeData.navigation.map((item) => ({
   label: item.label,
   href: pagePath(locale, item.page as Page),
@@ -133,11 +142,81 @@ const languageLinks = locales.map((language) => ({
   navigation={navigation}
   languageLinks={languageLinks}
 >
-  <section class="page-shell" aria-labelledby="page-title">
-    <p class="eyebrow">{localeData.homeLabel}</p>
-    <h1 id="page-title">{pageTitles[locale][page]}</h1>
-    <p class="page-message">{pageMessages[locale][page]}</p>
-  </section>
+  <!-- UPDATED: Render the complete localized homepage when this is the home route. -->
+  {page === "home" ? (
+    <>
+      <section class="home-hero page-shell" aria-labelledby="page-title">
+        <p class="eyebrow">{home.eyebrow}</p>
+        <h1 id="page-title">{home.title}</h1>
+        <p class="hero-intro">{home.introduction}</p>
+        <a class="primary-link" href={withBase(pagePath(locale, "contact"))}>
+          {home.contactLink}
+        </a>
+      </section>
+
+      <section class="content-section decision-section" aria-labelledby="decision-title">
+        <div class="content-inner">
+          <h2 id="decision-title">{home.decisionTitle}</h2>
+          <p>{home.decisionText}</p>
+        </div>
+      </section>
+
+      <section class="content-section" aria-labelledby="services-title">
+        <div class="content-inner">
+          <h2 id="services-title">{home.servicesTitle}</h2>
+          <div class="service-list">
+            {home.services.map((service) => (
+              <article class="service-item">
+                <h3>{service.title}</h3>
+                <p class="service-question">{service.question}</p>
+                <p>{service.description}</p>
+              </article>
+            ))}
+          </div>
+          <a href={withBase(pagePath(locale, "services"))}>
+            {locale === "en"
+              ? "Explore services"
+              : locale === "de"
+                ? "Leistungen ansehen"
+                : "Conheça os serviços"}
+          </a>
+        </div>
+      </section>
+
+      <section class="content-section about-preview" aria-labelledby="about-title">
+        <div class="content-inner">
+          <h2 id="about-title">{home.aboutTitle}</h2>
+          <p>{home.aboutText}</p>
+          <a href={withBase(pagePath(locale, "about"))}>{home.aboutLink}</a>
+        </div>
+      </section>
+
+      <section class="content-section insights-preview" aria-labelledby="insights-title">
+        <div class="content-inner">
+          <h2 id="insights-title">{home.insightsTitle}</h2>
+          <p>{home.insightsText}</p>
+          <a href={withBase(pagePath(locale, "insights"))}>{home.insightsLink}</a>
+        </div>
+      </section>
+
+      <section class="content-section contact-section" aria-labelledby="contact-title">
+        <div class="content-inner">
+          <h2 id="contact-title">{home.contactTitle}</h2>
+          <p>{home.contactText}</p>
+          <p>{home.contactDetails}</p>
+          <a class="primary-link" href="mailto:info@loonenconsulting.com">
+            {home.contactLink}
+          </a>
+        </div>
+      </section>
+    </>
+  ) : (
+    <section class="page-shell" aria-labelledby="page-title">
+      <p class="eyebrow">{localeData.homeLabel}</p>
+      <h1 id="page-title">{pageTitles[locale][page]}</h1>
+      <p class="page-message">{pageMessages[locale][page]}</p>
+    </section>
+  )}
 </SiteLayout>
 
 <style>
@@ -169,5 +248,105 @@ const languageLinks = locales.map((language) => ({
     max-width: 42rem;
     margin-top: 2rem;
     font-size: clamp(1.1rem, 2vw, 1.35rem);
+  }
+
+  /* UPDATED: Homepage section layout and responsive service list. */
+  .content-inner {
+    width: min(100% - 2.5rem, 68rem);
+    margin: 0 auto;
+  }
+
+  .home-hero {
+    padding-block: clamp(5rem, 12vw, 10rem);
+  }
+
+  .hero-intro {
+    max-width: 48rem;
+    margin: 1.75rem 0 2rem;
+    font-size: clamp(1.2rem, 2.5vw, 1.65rem);
+  }
+
+  .content-section {
+    padding-block: clamp(3.5rem, 8vw, 6rem);
+  }
+
+  .content-section h2 {
+    max-width: 24ch;
+    margin: 0 0 1.25rem;
+    color: var(--color-teal);
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+
+  .content-section p {
+    max-width: 54rem;
+  }
+
+  .decision-section,
+  .insights-preview {
+    background: #eeebe7;
+  }
+
+  .service-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .service-item {
+    padding-top: 1rem;
+    border-top: 3px solid var(--color-orange);
+  }
+
+  .service-item h3 {
+    margin-bottom: 0.75rem;
+    color: var(--color-ink);
+  }
+
+  .service-question {
+    font-weight: 700;
+  }
+
+  .primary-link {
+    display: inline-block;
+    padding: 0.8rem 1.1rem;
+    border-radius: 2px;
+    background: var(--color-teal);
+    color: white;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .primary-link:hover {
+    background: var(--color-burgundy);
+    color: white;
+  }
+
+  .contact-section {
+    background: var(--color-teal);
+    color: white;
+  }
+
+  .contact-section h2 {
+    color: white;
+  }
+
+  .contact-section .primary-link {
+    background: white;
+    color: var(--color-teal);
+  }
+
+  .contact-section .primary-link:hover {
+    background: var(--color-paper);
+    color: var(--color-burgundy);
+  }
+
+  @media (max-width: 760px) {
+    .service-list {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
   }
 </style>
