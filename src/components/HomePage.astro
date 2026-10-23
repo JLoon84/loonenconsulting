@@ -1,0 +1,213 @@
+---
+// NEW: Homepage rendering and styles extracted from the route template.
+import { homeContent } from "../data/home";
+import { pagePath, type Locale } from "../data/site";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const home = homeContent[locale];
+
+const base = import.meta.env.BASE_URL;
+const withBase = (path: string) => `${base}${path.replace(/^\/+/, "")}`;
+
+const servicesLink = {
+  en: "Explore services",
+  de: "Leistungen ansehen",
+  "pt-BR": "Conheça os serviços",
+}[locale];
+---
+
+<section class="home-hero" aria-labelledby="page-title">
+  <p class="eyebrow">{home.eyebrow}</p>
+  <h1 id="page-title">{home.title}</h1>
+  <p class="hero-intro">{home.introduction}</p>
+  <a class="primary-link" href={withBase(pagePath(locale, "contact"))}>
+    {home.contactLink}
+  </a>
+</section>
+
+<section
+  class="content-section decision-section"
+  aria-labelledby="decision-title"
+>
+  <div class="content-inner">
+    <h2 id="decision-title">{home.decisionTitle}</h2>
+    <p>{home.decisionText}</p>
+  </div>
+</section>
+
+<section class="content-section" aria-labelledby="services-title">
+  <div class="content-inner">
+    <h2 id="services-title">{home.servicesTitle}</h2>
+    <div class="service-list">
+      {home.services.map((service) => (
+        <article class="service-item">
+          <h3>{service.title}</h3>
+          <p class="service-question">{service.question}</p>
+          <p>{service.description}</p>
+        </article>
+      ))}
+    </div>
+    <a href={withBase(pagePath(locale, "services"))}>
+      {servicesLink}
+    </a>
+  </div>
+</section>
+
+<section class="content-section" aria-labelledby="about-title">
+  <div class="content-inner">
+    <h2 id="about-title">{home.aboutTitle}</h2>
+    <p>{home.aboutText}</p>
+    <a href={withBase(pagePath(locale, "about"))}>{home.aboutLink}</a>
+  </div>
+</section>
+
+<section
+  class="content-section insights-preview"
+  aria-labelledby="insights-title"
+>
+  <div class="content-inner">
+    <h2 id="insights-title">{home.insightsTitle}</h2>
+    <p>{home.insightsText}</p>
+    <a href={withBase(pagePath(locale, "insights"))}>{home.insightsLink}</a>
+  </div>
+</section>
+
+<section
+  class="content-section contact-section"
+  aria-labelledby="contact-title"
+>
+  <div class="content-inner">
+    <h2 id="contact-title">{home.contactTitle}</h2>
+    <p>{home.contactText}</p>
+    <p>{home.contactDetails}</p>
+    <a class="primary-link" href="mailto:info@loonenconsulting.com">
+      {home.contactLink}
+    </a>
+  </div>
+</section>
+
+<style>
+  /* NEW: These scoped styles now belong to the homepage component. */
+  .home-hero {
+    width: min(100% - 2.5rem, 72rem);
+    margin: 0 auto;
+    padding-block: clamp(5rem, 12vw, 10rem);
+  }
+
+  .eyebrow {
+    margin: 0 0 1rem;
+    color: var(--color-teal);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    max-width: 18ch;
+    margin: 0;
+    color: var(--color-teal);
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+
+  .hero-intro {
+    max-width: 48rem;
+    margin: 1.75rem 0 2rem;
+    font-size: clamp(1.2rem, 2.5vw, 1.65rem);
+  }
+
+  .content-inner {
+    width: min(100% - 2.5rem, 68rem);
+    margin: 0 auto;
+  }
+
+  .content-section {
+    padding-block: clamp(3.5rem, 8vw, 6rem);
+  }
+
+  .content-section h2 {
+    max-width: 24ch;
+    margin: 0 0 1.25rem;
+    color: var(--color-teal);
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+
+  .content-section p {
+    max-width: 54rem;
+  }
+
+  .decision-section,
+  .insights-preview {
+    background: #eeebe7;
+  }
+
+  .service-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .service-item {
+    padding-top: 1rem;
+    border-top: 3px solid var(--color-orange);
+  }
+
+  .service-item h3 {
+    margin-bottom: 0.75rem;
+    color: var(--color-ink);
+  }
+
+  .service-question {
+    font-weight: 700;
+  }
+
+  .primary-link {
+    display: inline-block;
+    padding: 0.8rem 1.1rem;
+    border-radius: 2px;
+    background: var(--color-teal);
+    color: white;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .primary-link:hover {
+    background: var(--color-burgundy);
+    color: white;
+  }
+
+  .contact-section {
+    background: var(--color-teal);
+    color: white;
+  }
+
+  .contact-section h2 {
+    color: white;
+  }
+
+  .contact-section .primary-link {
+    background: white;
+    color: var(--color-teal);
+  }
+
+  .contact-section .primary-link:hover {
+    background: var(--color-paper);
+    color: var(--color-burgundy);
+  }
+
+  @media (max-width: 760px) {
+    .service-list {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+</style>
