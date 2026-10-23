@@ -1,9 +1,10 @@
 ---
 import SiteLayout from "../../layouts/SiteLayout.astro";
-
-// UPDATED: Page components own their content rendering and scoped styles.
 import HomePage from "../../components/HomePage.astro";
 import ServicesPage from "../../components/ServicesPage.astro";
+
+// UPDATED: Import the dedicated About page component.
+import AboutPage from "../../components/AboutPage.astro";
 
 import {
   locales,
@@ -61,20 +62,17 @@ const pageDescriptions: Record<Locale, Record<Page, string>> = {
   },
 };
 
-// UPDATED: Placeholder messages are only needed for unfinished pages.
+// UPDATED: About is complete; only Insights and Contact need placeholders.
 const pageMessages = {
   en: {
-    about: "Janne’s full biography is being prepared.",
     insights: "Janne’s articles are being prepared for publication here.",
     contact: "Contact details and guidance are being prepared.",
   },
   de: {
-    about: "Janne Loonens vollständige Biografie wird vorbereitet.",
     insights: "Jannes Beiträge werden für die Veröffentlichung hier vorbereitet.",
     contact: "Kontaktdaten und weitere Hinweise werden vorbereitet.",
   },
   "pt-BR": {
-    about: "A biografia completa de Janne está sendo preparada.",
     insights: "Os artigos de Janne estão sendo preparados para publicação aqui.",
     contact: "As informações de contato estão sendo preparadas.",
   },
@@ -123,11 +121,11 @@ const languageLinks = locales.map((language) => ({
   current: language === locale,
 }));
 
-// UPDATED: Determine the fallback message before rendering the page.
+// UPDATED: Only unfinished pages receive a fallback message.
 const placeholderMessage =
-  page === "home" || page === "services"
-    ? ""
-    : pageMessages[locale][page];
+  page === "insights" || page === "contact"
+    ? pageMessages[locale][page]
+    : "";
 ---
 
 <SiteLayout
@@ -142,11 +140,13 @@ const placeholderMessage =
   navigation={navigation}
   languageLinks={languageLinks}
 >
-  <!-- UPDATED: The route now selects a component instead of rendering its contents. -->
+  <!-- UPDATED: About now renders its own component. -->
   {page === "home" ? (
     <HomePage locale={locale} />
   ) : page === "services" ? (
     <ServicesPage locale={locale} />
+  ) : page === "about" ? (
+    <AboutPage locale={locale} />
   ) : (
     <section class="page-shell" aria-labelledby="page-title">
       <p class="eyebrow">{localeData.homeLabel}</p>
@@ -157,7 +157,6 @@ const placeholderMessage =
 </SiteLayout>
 
 <style>
-  /* UPDATED: Only the unfinished-page fallback is styled here. */
   .page-shell {
     width: min(100% - 2.5rem, 72rem);
     margin: 0 auto;
