@@ -2,9 +2,10 @@
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import HomePage from "../../components/HomePage.astro";
 import ServicesPage from "../../components/ServicesPage.astro";
-
-// UPDATED: Import the dedicated About page component.
 import AboutPage from "../../components/AboutPage.astro";
+
+// UPDATED: Import the dedicated Contact page.
+import ContactPage from "../../components/ContactPage.astro";
 
 import {
   locales,
@@ -62,20 +63,11 @@ const pageDescriptions: Record<Locale, Record<Page, string>> = {
   },
 };
 
-// UPDATED: About is complete; only Insights and Contact need placeholders.
-const pageMessages = {
-  en: {
-    insights: "Janne’s articles are being prepared for publication here.",
-    contact: "Contact details and guidance are being prepared.",
-  },
-  de: {
-    insights: "Jannes Beiträge werden für die Veröffentlichung hier vorbereitet.",
-    contact: "Kontaktdaten und weitere Hinweise werden vorbereitet.",
-  },
-  "pt-BR": {
-    insights: "Os artigos de Janne estão sendo preparados para publicação aqui.",
-    contact: "As informações de contato estão sendo preparadas.",
-  },
+// UPDATED: Only Insights still needs an empty-state message.
+const insightsMessages = {
+  en: "Janne’s articles are being prepared for publication here.",
+  de: "Jannes Beiträge werden für die Veröffentlichung hier vorbereitet.",
+  "pt-BR": "Os artigos de Janne estão sendo preparados para publicação aqui.",
 } as const;
 
 export function getStaticPaths() {
@@ -120,12 +112,6 @@ const languageLinks = locales.map((language) => ({
   href: pagePath(language, page),
   current: language === locale,
 }));
-
-// UPDATED: Only unfinished pages receive a fallback message.
-const placeholderMessage =
-  page === "insights" || page === "contact"
-    ? pageMessages[locale][page]
-    : "";
 ---
 
 <SiteLayout
@@ -140,23 +126,26 @@ const placeholderMessage =
   navigation={navigation}
   languageLinks={languageLinks}
 >
-  <!-- UPDATED: About now renders its own component. -->
+  <!-- UPDATED: Contact now renders its dedicated component. -->
   {page === "home" ? (
     <HomePage locale={locale} />
   ) : page === "services" ? (
     <ServicesPage locale={locale} />
   ) : page === "about" ? (
     <AboutPage locale={locale} />
+  ) : page === "contact" ? (
+    <ContactPage locale={locale} />
   ) : (
     <section class="page-shell" aria-labelledby="page-title">
       <p class="eyebrow">{localeData.homeLabel}</p>
       <h1 id="page-title">{pageTitles[locale][page]}</h1>
-      <p class="page-message">{placeholderMessage}</p>
+      <p class="page-message">{insightsMessages[locale]}</p>
     </section>
   )}
 </SiteLayout>
 
 <style>
+  /* UPDATED: These styles now apply only to the Insights empty state. */
   .page-shell {
     width: min(100% - 2.5rem, 72rem);
     margin: 0 auto;
