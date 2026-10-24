@@ -1,0 +1,83 @@
+name: Build and publish website
+
+on:
+  # Check the build whenever development is pushed.
+  push:
+    branches:
+      - development
+
+  # Publishing requires a manual run with this checkbox selected.
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: "Publish the website to GitHub Pages"
+        required: true
+        type: boolean
+        default: false
+
+# Build jobs only need read access to the repository.
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build Astro website
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          cache: npm
+
+      # Install the exact dependencies in package-lock.json.
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build website
+        run: npm run build
+
+      # Upload only Astro's generated static output.
+      - name: Upload website artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./dist
+
+  deploy:
+    name: Publish to GitHub Pages
+    needs: build
+
+    # Pushing never publishes. Only an explicit manual run
+    # with publish selected, on development, can deploy.
+    if: >-
+      github.event_name == 'workflow_dispatch' &&
+      inputs.publish &&
+      github.ref == 'refs/heads/development'
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    # Avoid simultaneous deployments.
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
+
+    steps:
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Publish website
+        id: deployment
+        uses: actions/deploy-pages@v4
