@@ -1,5 +1,6 @@
 ---
 // NEW: Dedicated component for the localized Contact page.
+import ContactActions from "./ContactActions.astro";
 import { contactContent, contactEmail } from "../data/contact";
 import type { Locale } from "../data/site";
 
@@ -16,6 +17,7 @@ const emailHref = `mailto:${contactEmail}`;
   <p class="eyebrow">Loonen Consulting</p>
   <h1>{contact.title}</h1>
   <p class="introduction">{contact.introduction}</p>
+  <div class="booking"><ContactActions locale={locale} /></div>
 </header>
 
 <div class="contact-content">
@@ -47,6 +49,7 @@ const emailHref = `mailto:${contactEmail}`;
 </div>
 
 <style>
+  .booking { margin-top: 2rem; }
   /* NEW: Scoped styles for the Contact page. */
   .contact-header {
     width: min(100% - 2.5rem, 72rem);

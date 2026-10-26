@@ -1,4 +1,7 @@
 ---
+import LegalPage from "../../components/LegalPage.astro";
+import { legalContent } from "../../data/legal";
+import { homeContent } from "../../data/home";
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import HomePage from "../../components/HomePage.astro";
 import ServicesPage from "../../components/ServicesPage.astro";
@@ -23,6 +26,8 @@ const pageTitles: Record<Locale, Record<Page, string>> = {
     about: "About Janne",
     insights: "Insights",
     contact: "Contact",
+    imprint: legalContent["en"].imprint,
+    privacy: legalContent["en"].privacy,
   },
   de: {
     home: "Loonen Consulting",
@@ -30,6 +35,8 @@ const pageTitles: Record<Locale, Record<Page, string>> = {
     about: "Über Janne",
     insights: "Einblicke",
     contact: "Kontakt",
+    imprint: legalContent["de"].imprint,
+    privacy: legalContent["de"].privacy,
   },
   "pt-BR": {
     home: "Loonen Consulting",
@@ -37,26 +44,34 @@ const pageTitles: Record<Locale, Record<Page, string>> = {
     about: "Sobre Janne",
     insights: "Artigos",
     contact: "Contato",
+    imprint: legalContent["pt-BR"].imprint,
+    privacy: legalContent["pt-BR"].privacy,
   },
 };
 
 const pageDescriptions: Record<Locale, Record<Page, string>> = {
   en: {
-    home: "Independent consulting for German Mittelstand companies evaluating renewable energy opportunities in Northeast Brazil.",
+    home: homeContent["en"].introduction,
+    imprint: legalContent["en"].imprintText,
+    privacy: legalContent["en"].privacyText,
     services: "Explore the areas of work Loonen Consulting can support as your company evaluates Northeast Brazil.",
     about: "Learn about Janne Loonen’s international project experience and connection to Northeast Brazil.",
     insights: "Articles and analysis by Janne Loonen on renewable energy and business questions in Northeast Brazil.",
     contact: "Start a focused conversation about your company’s interest in Northeast Brazil.",
   },
   de: {
-    home: "Unabhängige Beratung für deutsche Mittelstandsunternehmen, die erneuerbare Energiemärkte im Nordosten Brasiliens prüfen.",
+    home: homeContent["de"].introduction,
+    imprint: legalContent["de"].imprintText,
+    privacy: legalContent["de"].privacyText,
     services: "Erfahren Sie, wobei Loonen Consulting Ihr Unternehmen bei der Bewertung des Nordostens Brasiliens unterstützen kann.",
     about: "Erfahren Sie mehr über Janne Loonens internationale Projekterfahrung und ihre Verbindung zum Nordosten Brasiliens.",
     insights: "Beiträge und Analysen von Janne Loonen zu erneuerbaren Energien und Geschäftsmöglichkeiten im Nordosten Brasiliens.",
     contact: "Sprechen Sie mit Janne über das Interesse Ihres Unternehmens am Nordosten Brasiliens.",
   },
   "pt-BR": {
-    home: "Consultoria independente para empresas alemãs de médio porte que avaliam oportunidades de energia renovável no Nordeste do Brasil.",
+    home: homeContent["pt-BR"].introduction,
+    imprint: legalContent["pt-BR"].imprintText,
+    privacy: legalContent["pt-BR"].privacyText,
     services: "Conheça as áreas em que a Loonen Consulting pode apoiar sua empresa na avaliação do Nordeste do Brasil.",
     about: "Saiba mais sobre a experiência internacional de Janne Loonen e sua conexão com o Nordeste do Brasil.",
     insights: "Artigos e análises de Janne Loonen sobre energia renovável e negócios no Nordeste do Brasil.",
@@ -114,6 +129,8 @@ const pageComponents = {
   about: AboutPage,
   insights: InsightsPage,
   contact: ContactPage,
+  imprint: LegalPage,
+  privacy: LegalPage,
 };
 
 const PageComponent = pageComponents[page];
@@ -126,6 +143,7 @@ const title =
 ---
 
 <SiteLayout
+  noindex={page === "imprint" || page === "privacy"}
   lang={localeData.lang}
   title={title}
   description={pageDescriptions[locale][page]}
@@ -138,7 +156,7 @@ const title =
   languageLinks={languageLinks}
 >
   <!-- UPDATED: Render the selected page component. -->
-  <PageComponent locale={locale} />
+  <PageComponent locale={locale} page={page} />
 </SiteLayout>
 
 <!-- UPDATED: Page-specific styles now live in their respective components. -->

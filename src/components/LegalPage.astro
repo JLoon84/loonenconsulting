@@ -1,0 +1,20 @@
+---
+import { legalContent } from '../data/legal';
+import type { Locale, Page } from '../data/site';
+interface Props { locale: Locale; page: Page; }
+const { locale, page } = Astro.props;
+const content = legalContent[locale];
+const isPrivacy = page === 'privacy';
+---
+<section class="legal-page">
+  <p class="draft">{content.draft}</p>
+  <h1>{isPrivacy ? content.privacy : content.imprint}</h1>
+  <p>{isPrivacy ? content.privacyText : content.imprintText}</p>
+  <p>{content.contact} <a href="mailto:info@loonenconsulting.com">info@loonenconsulting.com</a>.</p>
+</section>
+<style>
+  .legal-page { width:min(100% - 2.5rem, 60rem); margin:auto; padding-block:clamp(3rem,8vw,6rem); }
+  h1 { color:var(--color-teal); font-size:clamp(2rem,5vw,3.5rem); line-height:1.15; }
+  .draft { font-weight:700; color:var(--color-burgundy); }
+  a { overflow-wrap:anywhere; }
+</style>

@@ -1,0 +1,90 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import SiteLayout from '../../../layouts/SiteLayout.astro';
+import { locales, pagePath, site, type Page } from '../../../data/site';
+import { articleContent } from '../../../data/article';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts', ({ data }) => !data.draft);
+  const urls = new Set<string>();
+  const editions = new Set<string>();
+  return posts.map((post) => {
+    const locale = post.data.language;
+    const path = `${pagePath(locale, 'insights')}${post.data.urlSlug}/`;
+    const edition = `${post.data.translationId}/${locale}`;
+    if (urls.has(path) || editions.has(edition)) {
+      throw new Error(`Duplicate article URL or translation: ${path} (${edition})`);
+    }
+    urls.add(path);
+    editions.add(edition);
+    return {
+      params: {
+        locale: locale === 'pt-BR' ? 'pt-br' : locale,
+        section: site[locale].pages.insights.replace(/\/$/, ''),
+        article: post.data.urlSlug,
+      },
+      props: {
+        post,
+        translations: posts.filter((entry) => entry.data.translationId === post.data.translationId),
+      },
+    };
+  });
+}
+
+interface Props { post: CollectionEntry<'posts'>; translations: CollectionEntry<'posts'>[]; }
+const { post, translations } = Astro.props;
+const { Content } = await render(post);
+const locale = post.data.language;
+const localeData = site[locale];
+const copy = articleContent[locale];
+const withBase = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`;
+const articlePath = (entry: CollectionEntry<'posts'>) => `${pagePath(entry.data.language, 'insights')}${entry.data.urlSlug}/`;
+const navigation = localeData.navigation.map(item => ({ label: item.label, href: pagePath(locale, item.page as Page) }));
+// Only actual published equivalents appear in the article language switcher.
+const languageLinks = locales.flatMap(language => {
+  const translation = translations.find(entry => entry.data.language === language);
+  return translation ? [{ label: site[language].code, href: articlePath(translation), current: language === locale }] : [];
+});
+const missingLanguages = locales.filter(language => !translations.some(entry => entry.data.language === language));
+const date = new Intl.DateTimeFormat(locale, { day:'numeric', month:'long', year:'numeric', timeZone:'UTC' });
+if (!post.data.publishedAt) throw new Error(`Published article needs a date: ${post.id}`);
+const coverSource = post.data.cover?.src;
+const coverUrl = coverSource && (/^https?:\/\//.test(coverSource) ? coverSource : withBase(coverSource));
+---
+<SiteLayout
+  lang={locale} title={`${post.data.title} | Loonen Consulting`}
+  description={post.data.seoDescription ?? post.data.summary}
+  canonicalPath={articlePath(post)} homePath={pagePath(locale, 'home')}
+  homeLabel={localeData.homeLabel} skipLabel={localeData.skipLabel}
+  languageLabel={localeData.languageLabel} navigation={navigation} languageLinks={languageLinks}
+>
+  <article class="article-shell">
+    <a href={withBase(pagePath(locale, 'insights'))}>← {copy.back}</a>
+    <header>
+      <h1>{post.data.title}</h1>
+      <p>{post.data.author} · <time datetime={post.data.publishedAt.toISOString()}>{date.format(post.data.publishedAt)}</time></p>
+      {post.data.updatedAt && <p>{copy.updated}: <time datetime={post.data.updatedAt.toISOString()}>{date.format(post.data.updatedAt)}</time></p>}
+      <p class="summary">{post.data.summary}</p>
+      {post.data.cover && <img class="cover" src={coverUrl} alt={post.data.cover.alt} />}
+    </header>
+    <div class="article-body"><Content /></div>
+    {post.data.originalUrl && <p class="original"><a href={post.data.originalUrl}>{copy.original}</a></p>}
+    {missingLanguages.length > 0 && <aside class="translations" aria-label={copy.languages}>
+      <p>{copy.unavailable}</p>
+      <ul>{missingLanguages.map(language => <li><a href={withBase(pagePath(language, 'insights'))} lang={language}>{articleContent[language].browse}</a></li>)}</ul>
+    </aside>}
+  </article>
+</SiteLayout>
+<style>
+  .article-shell { width:min(100% - 2.5rem, 48rem); margin:auto; padding-block:clamp(3rem,7vw,6rem); }
+  header { margin-block:2rem 3rem; }
+  h1 { color:var(--color-teal); font-size:clamp(2rem,5vw,3.5rem); line-height:1.15; overflow-wrap:anywhere; }
+  .summary { font-size:1.25rem; }
+  .cover { width:100%; height:auto; margin-top:1rem; }
+  .article-body { font-size:1.1rem; overflow-wrap:anywhere; }
+  .article-body :global(h2), .article-body :global(h3) { line-height:1.3; color:var(--color-teal); margin-top:2rem; }
+  .article-body :global(img) { max-width:100%; height:auto; }
+  .article-body :global(pre) { overflow-x:auto; padding:1rem; }
+  .article-body :global(blockquote) { margin-inline:0; padding-left:1.5rem; border-left:3px solid var(--color-orange); }
+  .original, .translations { margin-top:2rem; padding-top:1rem; border-top:1px solid var(--color-border); }
+</style>

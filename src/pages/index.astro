@@ -1,5 +1,6 @@
 ---
 const englishHome = `${import.meta.env.BASE_URL}en/`;
+const canonical = Astro.site ? new URL(englishHome, Astro.site) : undefined;
 ---
 
 <!doctype html>
@@ -13,7 +14,7 @@ const englishHome = `${import.meta.env.BASE_URL}en/`;
       name="description"
       content="Independent consulting for German Mittelstand companies evaluating renewable energy opportunities in Northeast Brazil."
     />
-    <link rel="canonical" href="https://loonenconsulting.com/en/" />
+    {canonical && <link rel="canonical" href={canonical} />}
   </head>
   <body>
     <main>

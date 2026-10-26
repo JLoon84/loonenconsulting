@@ -1,12 +1,12 @@
+import { homeContent } from "./home";
 // NEW: Confirmed public contact address.
 export const contactEmail = "info@loonenconsulting.com";
 
 // NEW: Localized Contact page content.
 export const contactContent = {
   en: {
-    title: "Let’s discuss your questions",
-    introduction:
-      "If your company is seriously evaluating Northeast Brazil, I would be happy to hear about your situation and the questions you are working through.",
+    title: homeContent["en"].contactTitle,
+    introduction: homeContent["en"].contactText,
     emailLabel: "Email Janne",
     guidanceTitle: "What to include",
     guidanceIntroduction:
@@ -39,9 +39,8 @@ export const contactContent = {
   },
 
   de: {
-    title: "Sprechen wir über Ihre Fragen",
-    introduction:
-      "Wenn Ihr Unternehmen den Nordosten Brasiliens ernsthaft prüft, freue ich mich darauf, mehr über Ihre Situation und Ihre offenen Fragen zu erfahren.",
+    title: homeContent["de"].contactTitle,
+    introduction: homeContent["de"].contactText,
     emailLabel: "Janne eine E-Mail schreiben",
     guidanceTitle: "Was Sie in Ihrer Nachricht angeben können",
     guidanceIntroduction:
@@ -74,9 +73,8 @@ export const contactContent = {
   },
 
   "pt-BR": {
-    title: "Vamos conversar sobre suas questões",
-    introduction:
-      "Se sua empresa está avaliando seriamente o Nordeste do Brasil, será um prazer conhecer sua situação e as questões que está analisando.",
+    title: homeContent["pt-BR"].contactTitle,
+    introduction: homeContent["pt-BR"].contactText,
     emailLabel: "Enviar um e-mail para Janne",
     guidanceTitle: "O que incluir na mensagem",
     guidanceIntroduction:

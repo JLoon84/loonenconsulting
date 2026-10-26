@@ -1,7 +1,8 @@
 ---
 // NEW: Dedicated component for the localized About page.
 import { aboutContent } from "../data/about";
-import { pagePath, type Locale } from "../data/site";
+import { bookingHref } from "../data/links";
+import { type Locale } from "../data/site";
 
 interface Props {
   locale: Locale;
@@ -10,8 +11,6 @@ interface Props {
 const { locale } = Astro.props;
 const about = aboutContent[locale];
 
-const base = import.meta.env.BASE_URL;
-const withBase = (path: string) => `${base}${path.replace(/^\/+/, "")}`;
 ---
 
 <header class="about-header">
@@ -47,7 +46,7 @@ const withBase = (path: string) => `${base}${path.replace(/^\/+/, "")}`;
   <div class="contact-inner">
     <h2 id="about-contact-heading">{about.contactTitle}</h2>
     <p>{about.contactText}</p>
-    <a class="contact-link" href={withBase(pagePath(locale, "contact"))}>
+    <a class="contact-link" href={bookingHref(locale)}>
       {about.contactLink}
     </a>
   </div>

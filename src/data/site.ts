@@ -13,6 +13,8 @@ export const site = {
       about: "about/",
       insights: "insights/",
       contact: "contact/",
+      imprint: "legal-notice/",
+      privacy: "privacy/",
     },
     navigation: [
       { page: "services", label: "Services & approach" },
@@ -34,6 +36,8 @@ export const site = {
       about: "janne-loonen/",
       insights: "einblicke/",
       contact: "kontakt/",
+      imprint: "impressum/",
+      privacy: "datenschutz/",
     },
     navigation: [
       { page: "services", label: "Leistungen & Vorgehen" },
@@ -55,6 +59,8 @@ export const site = {
       about: "sobre-janne/",
       insights: "artigos/",
       contact: "contato/",
+      imprint: "informacoes-legais/",
+      privacy: "privacidade/",
     },
     navigation: [
       { page: "services", label: "Serviços e abordagem" },

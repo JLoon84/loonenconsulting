@@ -1,5 +1,7 @@
 ---
 import "../styles/global.css";
+import { legalContent } from "../data/legal";
+import { pagePath } from "../data/site";
 
 interface NavItem {
   label: string;
@@ -13,6 +15,7 @@ interface LanguageLink {
 }
 
 interface Props {
+  noindex?: boolean;
   lang: "en" | "de" | "pt-BR";
   title: string;
   description: string;
@@ -26,6 +29,7 @@ interface Props {
 }
 
 const {
+  noindex = false,
   lang,
   title,
   description,
@@ -81,6 +85,7 @@ const navigationLabel = {
     <meta name="description" content={description} />
     <meta name="theme-color" content="#F7F5F2" />
     <title>{title}</title>
+    {noindex && <meta name="robots" content="noindex, follow" />}
     {canonical && <link rel="canonical" href={canonical} />}
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
@@ -131,9 +136,12 @@ const navigationLabel = {
     </main>
 
     <footer class="site-footer">
-      <a href="mailto:info@loonenconsulting.com">
-        info@loonenconsulting.com
-      </a>
+      <div class="footer-links">
+        <a href={withBase(pagePath(lang, "imprint"))}>{legalContent[lang].imprint}</a>
+        <span aria-hidden="true">·</span>
+        <a href={withBase(pagePath(lang, "privacy"))}>{legalContent[lang].privacy}</a>
+      </div>
+      <span>© {new Date().getFullYear()} Loonen Consulting</span>
     </footer>
   </body>
 </html>
@@ -227,7 +235,10 @@ const navigationLabel = {
     border-bottom-color: var(--color-ink);
   }
 
+  .footer-links { display:flex; flex-wrap:wrap; gap:.6rem; }
   .site-footer {
+    flex-wrap:wrap;
+    font-size:.9rem;
     margin-top: 4rem;
     border-top: 1px solid var(--color-border);
   }

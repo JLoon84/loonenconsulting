@@ -1,113 +1,92 @@
-// NEW: Localized About page content based on the supplied positioning.
 export const aboutContent = {
-  en: {
-    title: "About Janne",
-    introduction:
-      "I help German Mittelstand companies evaluate opportunities in the renewable energy market in Northeast Brazil.",
-    sections: [
+  "en": {
+    "title": "Janne Loonen, M.A.",
+    "introduction": "Business consultant in Berlin and Bahia",
+    "sections": [
       {
-        title: "Experience across institutions and borders",
-        text:
-          "My background is in international project management, energy policy, and EU-funded programme administration. I have worked with government institutions, private-sector partners, and international stakeholders in European and Latin American contexts.",
+        "title": "Background",
+        "text": "I trained in Inter-American Studies and have worked in international business development, with experience in market development projects funded at German national and EU level. Latin America has been part of my life well beyond work for more than a decade."
       },
       {
-        title: "A connection to Bahia",
-        text:
-          "With direct personal and professional presence in Bahia, I have working knowledge of regional realities in Northeast Brazil that do not always appear in desk research. This perspective informs how I approach questions about the region.",
+        "title": "Between Bahia and Berlin",
+        "text": "I work in German, English, Dutch, Portuguese and Spanish, and divide my time between Bahia and Berlin."
       },
       {
-        title: "The companies I work best with",
-        text:
-          "I work best with technically oriented companies that are seriously evaluating the region and want a measured assessment before committing resources. The starting point is understanding your capabilities, your interest in the market, and the questions you need to resolve.",
-      },
+        "title": "Who I work with",
+        "text": "Mid-sized German companies in solar, wind and green hydrogen, including suppliers and technology providers. You are a good fit if you are seriously considering entering the market in Northeast Brazil, but first want to understand the frameworks, find the right partners and use available funding."
+      }
     ],
-    languagesTitle: "Working languages",
-    languagesIntroduction:
-      "I work across five languages:",
-    languages: [
+    "languagesTitle": "Working languages",
+    "languagesIntroduction": "I work in five languages:",
+    "languages": [
       "German",
-      "Portuguese",
       "English",
       "Dutch",
-      "Spanish",
+      "Portuguese",
+      "Spanish"
     ],
-    contactTitle: "Discuss your interest in the region",
-    contactText:
-      "If this sounds relevant to your company, I would be happy to hear what you are evaluating.",
-    contactLink: "Contact Janne",
+    "contactTitle": "Considering Northeast Brazil? Let’s talk.",
+    "contactText": "If your company is seriously evaluating Northeast Brazil, I’m happy to discuss your situation and the questions you are working through.",
+    "contactLink": "Book a free initial call of 30 minutes"
   },
-
-  de: {
-    title: "Über Janne",
-    introduction:
-      "Ich unterstütze deutsche Mittelstandsunternehmen dabei, Chancen im Markt für erneuerbare Energien im Nordosten Brasiliens zu prüfen.",
-    sections: [
+  "de": {
+    "title": "Janne Loonen, M.A.",
+    "introduction": "Unternehmensberaterin in Berlin und Bahia",
+    "sections": [
       {
-        title: "Erfahrung über Institutionen und Ländergrenzen hinweg",
-        text:
-          "Mein Hintergrund umfasst internationales Projektmanagement, Energiepolitik und die Verwaltung EU-finanzierter Programme. Ich habe mit staatlichen Institutionen, Unternehmen und internationalen Akteuren in europäischen und lateinamerikanischen Zusammenhängen gearbeitet.",
+        "title": "Mein Hintergrund",
+        "text": "Ich habe Interamerikanische Studien studiert und im internationalen Business Development gearbeitet. Dabei habe ich Erfahrung mit Markterschließungsprojekten gesammelt, die auf deutscher Bundes- und EU-Ebene gefördert wurden. Lateinamerika ist seit mehr als einem Jahrzehnt Teil meines Lebens – weit über meine berufliche Tätigkeit hinaus."
       },
       {
-        title: "Eine Verbindung zu Bahia",
-        text:
-          "Durch meine persönliche und berufliche Präsenz in Bahia kenne ich regionale Gegebenheiten im Nordosten Brasiliens, die aus reiner Schreibtischrecherche nicht immer ersichtlich werden. Diese Perspektive prägt meine Herangehensweise an Fragen zur Region.",
+        "title": "Zwischen Bahia und Berlin",
+        "text": "Ich arbeite auf Deutsch, Englisch, Niederländisch, Portugiesisch und Spanisch und lebe abwechselnd in Bahia und Berlin."
       },
       {
-        title: "Mit welchen Unternehmen ich am besten arbeite",
-        text:
-          "Ich arbeite besonders gut mit technisch orientierten Unternehmen, die die Region ernsthaft prüfen und vor dem Einsatz weiterer Ressourcen eine fundierte Einordnung wünschen. Ausgangspunkt sind Ihre Kompetenzen, Ihr Interesse am Markt und die Fragen, die Sie klären möchten.",
-      },
+        "title": "Für wen ich arbeite",
+        "text": "Deutsche Mittelstandsunternehmen aus den Bereichen Solarenergie, Windenergie und grüner Wasserstoff, einschließlich Zulieferern und Technologieanbietern. Mein Angebot passt zu Ihnen, wenn Sie einen Markteintritt im Nordosten Brasiliens ernsthaft erwägen, aber zunächst die Rahmenbedingungen verstehen, die richtigen Partner finden und verfügbare Fördermöglichkeiten nutzen möchten."
+      }
     ],
-    languagesTitle: "Arbeitssprachen",
-    languagesIntroduction:
-      "Ich arbeite in fünf Sprachen:",
-    languages: [
+    "languagesTitle": "Arbeitssprachen",
+    "languagesIntroduction": "Ich arbeite in fünf Sprachen:",
+    "languages": [
       "Deutsch",
-      "Portugiesisch",
       "Englisch",
       "Niederländisch",
-      "Spanisch",
+      "Portugiesisch",
+      "Spanisch"
     ],
-    contactTitle: "Sprechen wir über Ihr Interesse an der Region",
-    contactText:
-      "Wenn dieser Ansatz zu Ihrem Unternehmen passt, freue ich mich darauf, mehr über Ihre Überlegungen zu erfahren.",
-    contactLink: "Janne kontaktieren",
+    "contactTitle": "Sie erwägen den Nordosten Brasiliens? Lassen Sie uns sprechen.",
+    "contactText": "Wenn Ihr Unternehmen den Nordosten Brasiliens ernsthaft in Betracht zieht, spreche ich gern mit Ihnen über Ihre Situation und die Fragen, die Sie beschäftigen.",
+    "contactLink": "Kostenloses 30-minütiges Erstgespräch buchen"
   },
-
   "pt-BR": {
-    title: "Sobre Janne",
-    introduction:
-      "Ajudo empresas alemãs de médio porte, o Mittelstand, a avaliar oportunidades no mercado de energia renovável no Nordeste do Brasil.",
-    sections: [
+    "title": "Janne Loonen, M.A.",
+    "introduction": "Consultora empresarial em Berlim e na Bahia",
+    "sections": [
       {
-        title: "Experiência entre instituições e países",
-        text:
-          "Minha experiência reúne gestão internacional de projetos, política energética e administração de programas financiados pela União Europeia. Trabalhei com instituições governamentais, empresas privadas e interlocutores internacionais em contextos europeus e latino-americanos.",
+        "title": "Minha trajetória",
+        "text": "Tenho formação em Estudos Interamericanos e atuei em desenvolvimento internacional de negócios, com experiência em projetos de desenvolvimento de mercados apoiados por programas federais alemães e da União Europeia. A América Latina faz parte da minha vida há mais de uma década, muito além do trabalho."
       },
       {
-        title: "Uma conexão com a Bahia",
-        text:
-          "Minha presença pessoal e profissional na Bahia me proporciona conhecimento das realidades regionais do Nordeste que nem sempre aparecem em pesquisas feitas à distância. Essa perspectiva orienta minha abordagem às questões sobre a região.",
+        "title": "Entre a Bahia e Berlim",
+        "text": "Trabalho em alemão, inglês, neerlandês, português e espanhol e divido meu tempo entre a Bahia e Berlim."
       },
       {
-        title: "As empresas com as quais trabalho melhor",
-        text:
-          "Trabalho melhor com empresas de perfil técnico que estão avaliando seriamente a região e buscam uma análise criteriosa antes de comprometer recursos. O ponto de partida é entender suas competências, seu interesse no mercado e as questões que precisam esclarecer.",
-      },
+        "title": "Com quem trabalho",
+        "text": "Empresas alemãs de médio porte dos setores de energia solar, eólica e hidrogênio verde, incluindo fornecedores e empresas de tecnologia. A consultoria é indicada para quem considera seriamente entrar no mercado do Nordeste do Brasil, mas deseja primeiro entender as condições, encontrar os parceiros certos e aproveitar os programas de apoio disponíveis."
+      }
     ],
-    languagesTitle: "Idiomas de trabalho",
-    languagesIntroduction:
-      "Trabalho em cinco idiomas:",
-    languages: [
+    "languagesTitle": "Idiomas de trabalho",
+    "languagesIntroduction": "Trabalho em cinco idiomas:",
+    "languages": [
       "Alemão",
-      "Português",
       "Inglês",
       "Neerlandês",
-      "Espanhol",
+      "Português",
+      "Espanhol"
     ],
-    contactTitle: "Vamos conversar sobre seu interesse na região",
-    contactText:
-      "Se essa abordagem faz sentido para sua empresa, será um prazer conhecer melhor o que você está avaliando.",
-    contactLink: "Fale com Janne",
-  },
+    "contactTitle": "Considerando o Nordeste do Brasil? Vamos conversar.",
+    "contactText": "Se sua empresa está avaliando seriamente o Nordeste do Brasil, será um prazer conversar sobre sua situação e as questões que está analisando.",
+    "contactLink": "Agende uma conversa inicial gratuita de 30 minutos"
+  }
 } as const;

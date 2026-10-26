@@ -1,136 +1,137 @@
 export const homeContent = {
-  en: {
-    eyebrow: "Renewable energy in Northeast Brazil",
-    title: "Understand the region before you commit.",
-    introduction:
-      "I help German Mittelstand companies—Germany’s small and medium-sized businesses—evaluate renewable energy opportunities in Northeast Brazil before they commit time and resources.",
-    decisionTitle: "Regional understanding for an important decision",
-    decisionText:
-      "Desk research can show market figures and policy frameworks. It may not capture how regional conditions shape a specific business decision. I bring international project experience and direct personal and professional presence in Bahia to help you assess the questions that matter to your company.",
-    servicesTitle: "Where I can support your evaluation",
-    services: [
-      {
-        title: "Market analysis",
-        question: "What market conditions could affect our decision?",
-        description:
-          "Review relevant tax structures, customs regulations, competition, and the framework conditions for market entry.",
-      },
-      {
-        title: "Partner research",
-        question: "Which local stakeholders or potential partners are relevant?",
-        description:
-          "Identify relevant stakeholders and explore potential local partners in relation to your industry and needs.",
-      },
-      {
-        title: "Funding research",
-        question: "Which national or European programmes may be relevant?",
-        description:
-          "Research funding and export programmes and support the application process where appropriate.",
-      },
+  "en": {
+    "eyebrow": "Renewable energy in Northeast Brazil",
+    "title": "Understand the region before you commit.",
+    "titleLines": [
+      "Understand the region",
+      "before you commit."
     ],
-    aboutTitle: "A perspective shaped across regions",
-    aboutText:
-      "My background spans international project management, energy policy, and EU-funded programme administration. I have worked with government institutions, private-sector partners, and international stakeholders in European and Latin American contexts. I work in German, Portuguese, English, Dutch, and Spanish.",
-    aboutLink: "More about Janne",
-    insightsTitle: "Insights",
-    insightsText:
-      "Janne’s articles are being prepared for publication on this site.",
-    insightsLink: "Visit Insights",
-    contactTitle: "Start with a conversation",
-    contactText:
-      "If your company is seriously evaluating Northeast Brazil, I’m happy to discuss your situation and the questions you are working through.",
-    contactDetails:
-      "You can include your company, relevant capabilities, interest in the region, and the questions you are evaluating.",
-    contactLink: "Email Janne",
-  },
-
-  de: {
-    eyebrow: "Erneuerbare Energien im Nordosten Brasiliens",
-    title: "Die Region verstehen, bevor Sie sich festlegen.",
-    introduction:
-      "Ich unterstütze deutsche Mittelstandsunternehmen dabei, Chancen im Bereich erneuerbare Energien im Nordosten Brasiliens zu prüfen, bevor sie Zeit und Ressourcen investieren.",
-    decisionTitle: "Regionale Einordnung für eine wichtige Entscheidung",
-    decisionText:
-      "Desk Research kann Marktdaten und politische Rahmenbedingungen zeigen. Wie regionale Gegebenheiten eine konkrete Geschäftsentscheidung beeinflussen, wird daraus nicht immer ersichtlich. Durch meine internationale Projekterfahrung und meine persönliche wie berufliche Präsenz in Bahia kann ich die für Ihr Unternehmen wichtigen Fragen regional einordnen.",
-    servicesTitle: "Wobei ich Sie unterstützen kann",
-    services: [
+    "introduction": "Strategic consulting for mid-sized German companies in the renewable energy sector in Northeast Brazil.",
+    "heroLink": "Book a free initial call",
+    "location": "Based in Berlin and Bahia.",
+    "decisionTitle": "The challenge",
+    "decisionText": "Brazil is Latin America’s largest market, and the Northeast is its hotspot for solar, wind and green hydrogen. German companies often struggle with the same three things: unclear market understanding, regulatory hurdles and a lack of local networks. I help you close that gap with local presence, technical expertise and the cultural understanding that makes connections possible. I offer support with market analysis, partner search and funding research for Northeast Brazil.",
+    "audienceTitle": "Who this is for",
+    "audienceText": "Mid-sized German companies in solar, wind and green hydrogen, including suppliers and technology providers. You are a good fit if you are seriously considering entering the market in Northeast Brazil, but first want to understand the frameworks, find the right partners and use available funding.",
+    "servicesTitle": "What I do",
+    "services": [
       {
-        title: "Marktanalyse",
-        question: "Welche Marktbedingungen können unsere Entscheidung beeinflussen?",
-        description:
-          "Einordnung relevanter Steuerstrukturen, Zollvorschriften, Wettbewerbssituation und Rahmenbedingungen für einen Markteintritt.",
+        "title": "Market analysis",
+        "description": "Competition, demand and the framework conditions that matter for your market entry, including an overview of the main tax and customs aspects.",
+        "id": "market-analysis"
       },
       {
-        title: "Recherche zu möglichen Partnern",
-        question: "Welche lokalen Akteure oder potenziellen Partner sind relevant?",
-        description:
-          "Identifikation relevanter Akteure und Recherche möglicher lokaler Partner mit Blick auf Ihre Branche und Ihren Bedarf.",
+        "title": "Client-specific partner search",
+        "description": "Identify the right players in your industry, approach them directly and introduce you to suitable local partners.",
+        "id": "partner-search"
       },
       {
-        title: "Recherche zu Fördermöglichkeiten",
-        question: "Welche nationalen oder europäischen Programme könnten relevant sein?",
-        description:
-          "Recherche zu Förder- und Exportprogrammen sowie bei Bedarf Unterstützung im Antragsprozess.",
-      },
+        "title": "Funding research",
+        "description": "Match your plans to national and European funding and export programmes, with support through the application process.",
+        "id": "funding-research"
+      }
     ],
-    aboutTitle: "Eine Perspektive über Ländergrenzen hinweg",
-    aboutText:
-      "Mein Hintergrund umfasst internationales Projektmanagement, Energiepolitik und die Verwaltung EU-finanzierter Programme. Ich habe mit staatlichen Institutionen, Unternehmen und internationalen Akteuren in Europa und Lateinamerika gearbeitet. Ich arbeite auf Deutsch, Portugiesisch, Englisch, Niederländisch und Spanisch.",
-    aboutLink: "Mehr über Janne",
-    insightsTitle: "Einblicke",
-    insightsText:
-      "Jannes Beiträge werden für die Veröffentlichung auf dieser Website vorbereitet.",
-    insightsLink: "Zu den Einblicken",
-    contactTitle: "Lassen Sie uns sprechen",
-    contactText:
-      "Wenn Ihr Unternehmen den Nordosten Brasiliens ernsthaft prüft, spreche ich gern mit Ihnen über Ihre Situation und die offenen Fragen.",
-    contactDetails:
-      "Sie können Ihr Unternehmen, Ihre relevanten Kompetenzen, Ihr Interesse an der Region und die Fragen beschreiben, die Sie derzeit prüfen.",
-    contactLink: "Janne eine E-Mail schreiben",
+    "aboutTitle": "About",
+    "aboutName": "Janne Loonen, M.A.",
+    "aboutRole": "Business consultant in Berlin and Bahia",
+    "aboutText": "I trained in Inter-American Studies and have worked in international business development, with experience in market development projects funded at German national and EU level. Latin America has been part of my life well beyond work for more than a decade.",
+    "aboutLanguages": "I work in German, English, Dutch, Portuguese and Spanish, and divide my time between Bahia and Berlin.",
+    "aboutLink": "More about Janne",
+    "insightsTitle": "Insights",
+    "insightsText": "Perspectives on renewable energy and market entry in Northeast Brazil.",
+    "insightsLink": "Visit Insights",
+    "contactTitle": "Considering Northeast Brazil? Let’s talk.",
+    "contactText": "If your company is seriously evaluating Northeast Brazil, I’m happy to discuss your situation and the questions you are working through.",
+    "contactLink": "Book a free initial call of 30 minutes"
   },
-
+  "de": {
+    "eyebrow": "Erneuerbare Energien im Nordosten Brasiliens",
+    "title": "Die Region verstehen, bevor Sie sich festlegen.",
+    "titleLines": [
+      "Die Region verstehen,",
+      "bevor Sie sich festlegen."
+    ],
+    "introduction": "Strategische Beratung für deutsche Mittelstandsunternehmen im Bereich erneuerbare Energien im Nordosten Brasiliens.",
+    "heroLink": "Kostenloses Erstgespräch buchen",
+    "location": "In Berlin und Bahia zu Hause.",
+    "decisionTitle": "Die Herausforderung",
+    "decisionText": "Brasilien ist der größte Markt Lateinamerikas, und der Nordosten ist ein Schwerpunkt für Solarenergie, Windenergie und grünen Wasserstoff. Deutsche Unternehmen stehen häufig vor denselben drei Herausforderungen: einem unklaren Marktverständnis, regulatorischen Hürden und fehlenden lokalen Netzwerken. Ich helfe Ihnen, diese Lücke zu schließen – mit Präsenz vor Ort, fachlicher Expertise und dem kulturellen Verständnis, das Verbindungen ermöglicht. Dabei unterstütze ich Sie mit Marktanalysen, Partnersuche und Fördermittelrecherche für den Nordosten Brasiliens.",
+    "audienceTitle": "Für wen ich arbeite",
+    "audienceText": "Deutsche Mittelstandsunternehmen aus den Bereichen Solarenergie, Windenergie und grüner Wasserstoff, einschließlich Zulieferern und Technologieanbietern. Mein Angebot passt zu Ihnen, wenn Sie einen Markteintritt im Nordosten Brasiliens ernsthaft erwägen, aber zunächst die Rahmenbedingungen verstehen, die richtigen Partner finden und verfügbare Fördermöglichkeiten nutzen möchten.",
+    "servicesTitle": "Was ich für Sie tue",
+    "services": [
+      {
+        "title": "Marktanalyse",
+        "description": "Wettbewerb, Nachfrage und die für Ihren Markteintritt relevanten Rahmenbedingungen, einschließlich eines Überblicks über die wichtigsten steuerlichen und zollrechtlichen Aspekte.",
+        "id": "market-analysis"
+      },
+      {
+        "title": "Kundenspezifische Partnersuche",
+        "description": "Identifikation der passenden Akteure in Ihrer Branche, direkte Ansprache und Vermittlung geeigneter lokaler Partner.",
+        "id": "partner-search"
+      },
+      {
+        "title": "Fördermittelrecherche",
+        "description": "Abgleich Ihres Vorhabens mit nationalen und europäischen Förder- und Exportprogrammen sowie Unterstützung im Antragsprozess.",
+        "id": "funding-research"
+      }
+    ],
+    "aboutTitle": "Über mich",
+    "aboutName": "Janne Loonen, M.A.",
+    "aboutRole": "Unternehmensberaterin in Berlin und Bahia",
+    "aboutText": "Ich habe Interamerikanische Studien studiert und im internationalen Business Development gearbeitet. Dabei habe ich Erfahrung mit Markterschließungsprojekten gesammelt, die auf deutscher Bundes- und EU-Ebene gefördert wurden. Lateinamerika ist seit mehr als einem Jahrzehnt Teil meines Lebens – weit über meine berufliche Tätigkeit hinaus.",
+    "aboutLanguages": "Ich arbeite auf Deutsch, Englisch, Niederländisch, Portugiesisch und Spanisch und lebe abwechselnd in Bahia und Berlin.",
+    "aboutLink": "Mehr über Janne",
+    "insightsTitle": "Einblicke",
+    "insightsText": "Perspektiven zu erneuerbaren Energien und zum Markteintritt im Nordosten Brasiliens.",
+    "insightsLink": "Zu den Einblicken",
+    "contactTitle": "Sie erwägen den Nordosten Brasiliens? Lassen Sie uns sprechen.",
+    "contactText": "Wenn Ihr Unternehmen den Nordosten Brasiliens ernsthaft in Betracht zieht, spreche ich gern mit Ihnen über Ihre Situation und die Fragen, die Sie beschäftigen.",
+    "contactLink": "Kostenloses 30-minütiges Erstgespräch buchen"
+  },
   "pt-BR": {
-    eyebrow: "Energia renovável no Nordeste do Brasil",
-    title: "Entenda a região antes de tomar uma decisão.",
-    introduction:
-      "Ajudo empresas alemãs de médio porte — o Mittelstand — a avaliar oportunidades de energia renovável no Nordeste do Brasil antes de investir tempo e recursos.",
-    decisionTitle: "Conhecimento regional para uma decisão importante",
-    decisionText:
-      "Pesquisas de mercado podem apresentar dados e políticas públicas. Mas nem sempre mostram como as condições regionais influenciam uma decisão empresarial específica. Minha experiência em projetos internacionais e minha presença pessoal e profissional na Bahia ajudam a contextualizar as questões relevantes para a sua empresa.",
-    servicesTitle: "Como posso apoiar sua avaliação",
-    services: [
-      {
-        title: "Análise de mercado",
-        question: "Quais condições de mercado podem influenciar nossa decisão?",
-        description:
-          "Análise de estruturas tributárias, regras aduaneiras, concorrência e condições para a entrada no mercado.",
-      },
-      {
-        title: "Pesquisa de parceiros",
-        question: "Quais atores locais ou potenciais parceiros são relevantes?",
-        description:
-          "Identificação de atores relevantes e pesquisa de possíveis parceiros locais, considerando seu setor e suas necessidades.",
-      },
-      {
-        title: "Pesquisa de financiamento",
-        question: "Quais programas nacionais ou europeus podem ser relevantes?",
-        description:
-          "Pesquisa de programas de financiamento e exportação e, quando pertinente, apoio ao processo de candidatura.",
-      },
+    "eyebrow": "Energia renovável no Nordeste do Brasil",
+    "title": "Entenda a região antes de se comprometer.",
+    "titleLines": [
+      "Entenda a região",
+      "antes de se comprometer."
     ],
-    aboutTitle: "Uma perspectiva construída entre regiões",
-    aboutText:
-      "Minha experiência reúne gestão internacional de projetos, política energética e administração de programas financiados pela União Europeia. Trabalhei com instituições governamentais, empresas privadas e interlocutores internacionais na Europa e na América Latina. Trabalho em alemão, português, inglês, neerlandês e espanhol.",
-    aboutLink: "Saiba mais sobre Janne",
-    insightsTitle: "Artigos",
-    insightsText:
-      "Os artigos de Janne estão sendo preparados para publicação neste site.",
-    insightsLink: "Acessar artigos",
-    contactTitle: "Vamos conversar",
-    contactText:
-      "Se sua empresa está avaliando seriamente o Nordeste do Brasil, será um prazer conversar sobre sua situação e as questões que está analisando.",
-    contactDetails:
-      "Você pode incluir o nome da empresa, suas competências relevantes, seu interesse na região e as perguntas que está avaliando.",
-    contactLink: "Enviar um e-mail para Janne",
-  },
+    "introduction": "Consultoria estratégica para empresas alemãs de médio porte do setor de energias renováveis no Nordeste do Brasil.",
+    "heroLink": "Agende uma conversa inicial gratuita",
+    "location": "Com base em Berlim e na Bahia.",
+    "decisionTitle": "O desafio",
+    "decisionText": "O Brasil é o maior mercado da América Latina, e o Nordeste é um polo de energia solar, eólica e hidrogênio verde. Empresas alemãs frequentemente enfrentam os mesmos três desafios: falta de clareza sobre o mercado, entraves regulatórios e ausência de redes de contatos locais. Ajudo a superar essa lacuna com presença local, conhecimento técnico e a compreensão cultural que torna as conexões possíveis. Ofereço apoio em análise de mercado, busca de parceiros e pesquisa de programas de financiamento e incentivo para o Nordeste do Brasil.",
+    "audienceTitle": "Para quem é esta consultoria",
+    "audienceText": "Empresas alemãs de médio porte dos setores de energia solar, eólica e hidrogênio verde, incluindo fornecedores e empresas de tecnologia. A consultoria é indicada para quem considera seriamente entrar no mercado do Nordeste do Brasil, mas deseja primeiro entender as condições, encontrar os parceiros certos e aproveitar os programas de apoio disponíveis.",
+    "servicesTitle": "Como posso ajudar",
+    "services": [
+      {
+        "title": "Análise de mercado",
+        "description": "Concorrência, demanda e condições relevantes para sua entrada no mercado, incluindo um panorama dos principais aspectos tributários e aduaneiros.",
+        "id": "market-analysis"
+      },
+      {
+        "title": "Busca de parceiros sob medida",
+        "description": "Identificação dos atores certos no seu setor, contato direto e apresentação de parceiros locais adequados às suas necessidades.",
+        "id": "partner-search"
+      },
+      {
+        "title": "Pesquisa de programas de financiamento e incentivo",
+        "description": "Identificação de programas nacionais e europeus de financiamento, incentivo e apoio à exportação alinhados aos seus planos, com suporte durante o processo de candidatura.",
+        "id": "funding-research"
+      }
+    ],
+    "aboutTitle": "Sobre mim",
+    "aboutName": "Janne Loonen, M.A.",
+    "aboutRole": "Consultora empresarial em Berlim e na Bahia",
+    "aboutText": "Tenho formação em Estudos Interamericanos e atuei em desenvolvimento internacional de negócios, com experiência em projetos de desenvolvimento de mercados apoiados por programas federais alemães e da União Europeia. A América Latina faz parte da minha vida há mais de uma década, muito além do trabalho.",
+    "aboutLanguages": "Trabalho em alemão, inglês, neerlandês, português e espanhol e divido meu tempo entre a Bahia e Berlim.",
+    "aboutLink": "Saiba mais sobre Janne",
+    "insightsTitle": "Artigos",
+    "insightsText": "Perspectivas sobre energias renováveis e entrada no mercado do Nordeste do Brasil.",
+    "insightsLink": "Acessar artigos",
+    "contactTitle": "Considerando o Nordeste do Brasil? Vamos conversar.",
+    "contactText": "Se sua empresa está avaliando seriamente o Nordeste do Brasil, será um prazer conversar sobre sua situação e as questões que está analisando.",
+    "contactLink": "Agende uma conversa inicial gratuita de 30 minutos"
+  }
 } as const;

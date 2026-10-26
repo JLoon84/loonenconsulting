@@ -1,10 +1,13 @@
-export const servicesContent = {
+import { homeContent } from "./home";
+import type { Locale } from "./site";
+const serviceDetails = {
   en: {
     title: "Services & approach",
     introduction:
       "A focused assessment can help your company understand relevant conditions in Northeast Brazil before deciding where to commit further resources.",
     services: [
       {
+        id: "market-analysis",
         title: "Market analysis",
         question: "What market conditions could affect our decision?",
         when: "When you are assessing whether the region merits further attention.",
@@ -14,6 +17,7 @@ export const servicesContent = {
           "An analysis of the relevant conditions, with practical recommendations to inform your evaluation.",
       },
       {
+        id: "partner-search",
         title: "Partner research",
         question: "Which local stakeholders or potential partners are relevant?",
         when: "When your company needs a clearer view of the local stakeholder landscape.",
@@ -23,6 +27,7 @@ export const servicesContent = {
           "A clearer picture of relevant stakeholders and potential local partners to consider.",
       },
       {
+        id: "funding-research",
         title: "Funding research",
         question: "Which national or European programmes may be relevant?",
         when: "When you are exploring funding or export support for work connected to Brazil.",
@@ -44,6 +49,7 @@ export const servicesContent = {
       "Eine gezielte Bewertung kann Ihrem Unternehmen helfen, relevante Rahmenbedingungen im Nordosten Brasiliens zu verstehen, bevor Sie über weitere Ressourcen entscheiden.",
     services: [
       {
+        id: "market-analysis",
         title: "Marktanalyse",
         question: "Welche Marktbedingungen können unsere Entscheidung beeinflussen?",
         when: "Wenn Sie prüfen, ob die Region weitere Aufmerksamkeit verdient.",
@@ -53,6 +59,7 @@ export const servicesContent = {
           "Eine Analyse der relevanten Rahmenbedingungen mit praktischen Empfehlungen für Ihre Bewertung.",
       },
       {
+        id: "partner-search",
         title: "Recherche zu möglichen Partnern",
         question: "Welche lokalen Akteure oder potenziellen Partner sind relevant?",
         when: "Wenn Ihr Unternehmen einen besseren Überblick über relevante Akteure vor Ort benötigt.",
@@ -62,6 +69,7 @@ export const servicesContent = {
           "Ein klareres Bild relevanter Akteure und möglicher lokaler Partner, die Sie in Betracht ziehen können.",
       },
       {
+        id: "funding-research",
         title: "Recherche zu Fördermöglichkeiten",
         question: "Welche nationalen oder europäischen Programme könnten relevant sein?",
         when: "Wenn Sie Förder- oder Exportmöglichkeiten für Vorhaben mit Bezug zu Brasilien prüfen.",
@@ -83,6 +91,7 @@ export const servicesContent = {
       "Uma avaliação focada pode ajudar sua empresa a entender as condições relevantes no Nordeste do Brasil antes de decidir onde investir mais recursos.",
     services: [
       {
+        id: "market-analysis",
         title: "Análise de mercado",
         question: "Quais condições de mercado podem influenciar nossa decisão?",
         when: "Quando sua empresa estiver avaliando se a região merece uma análise mais aprofundada.",
@@ -92,6 +101,7 @@ export const servicesContent = {
           "Uma análise das condições relevantes, com recomendações práticas para apoiar sua avaliação.",
       },
       {
+        id: "partner-search",
         title: "Pesquisa de parceiros",
         question: "Quais atores locais ou potenciais parceiros são relevantes?",
         when: "Quando sua empresa precisar compreender melhor o cenário de atores locais.",
@@ -101,6 +111,7 @@ export const servicesContent = {
           "Uma visão mais clara dos atores relevantes e de possíveis parceiros locais a considerar.",
       },
       {
+        id: "funding-research",
         title: "Pesquisa de financiamento",
         question: "Quais programas nacionais ou europeus podem ser relevantes?",
         when: "Quando sua empresa estiver explorando apoio financeiro ou à exportação para iniciativas ligadas ao Brasil.",
@@ -116,3 +127,22 @@ export const servicesContent = {
     contactLink: "Converse sobre suas questões",
   },
 } as const;
+function localizedServices(locale: Locale) {
+  const details = serviceDetails[locale];
+  return {
+    ...details,
+    introduction: homeContent[locale].introduction,
+    services: homeContent[locale].services.map((summary) => {
+      const detail = details.services.find((service) => service.id === summary.id);
+      if (!detail) throw new Error(`Missing service details: ${locale}/${summary.id}`);
+      return { ...detail, title: summary.title, work: summary.description };
+    }),
+    contactLink: homeContent[locale].contactLink,
+  };
+}
+
+export const servicesContent = {
+  en: localizedServices("en"),
+  de: localizedServices("de"),
+  "pt-BR": localizedServices("pt-BR"),
+};

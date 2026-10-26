@@ -1,5 +1,6 @@
 ---
 // NEW: Homepage rendering and styles extracted from the route template.
+import ContactActions from "./ContactActions.astro";
 import { homeContent } from "../data/home";
 import { pagePath, type Locale } from "../data/site";
 
@@ -22,11 +23,10 @@ const servicesLink = {
 
 <section class="home-hero" aria-labelledby="page-title">
   <p class="eyebrow">{home.eyebrow}</p>
-  <h1 id="page-title">{home.title}</h1>
+  <h1 id="page-title">{home.titleLines.map((line, index) => <span>{line}{index === 0 && " "}</span>)}</h1>
   <p class="hero-intro">{home.introduction}</p>
-  <a class="primary-link" href={withBase(pagePath(locale, "contact"))}>
-    {home.contactLink}
-  </a>
+  <ContactActions locale={locale} compact />
+  <p class="location">{home.location}</p>
 </section>
 
 <section
@@ -39,6 +39,10 @@ const servicesLink = {
   </div>
 </section>
 
+<section class="content-section audience-section" aria-labelledby="audience-title">
+  <div class="content-inner"><h2 id="audience-title">{home.audienceTitle}</h2><p>{home.audienceText}</p></div>
+</section>
+
 <section class="content-section" aria-labelledby="services-title">
   <div class="content-inner">
     <h2 id="services-title">{home.servicesTitle}</h2>
@@ -46,7 +50,6 @@ const servicesLink = {
       {home.services.map((service) => (
         <article class="service-item">
           <h3>{service.title}</h3>
-          <p class="service-question">{service.question}</p>
           <p>{service.description}</p>
         </article>
       ))}
@@ -60,7 +63,10 @@ const servicesLink = {
 <section class="content-section" aria-labelledby="about-title">
   <div class="content-inner">
     <h2 id="about-title">{home.aboutTitle}</h2>
+    <h3 class="about-name">{home.aboutName}</h3>
+    <p class="about-role">{home.aboutRole}</p>
     <p>{home.aboutText}</p>
+    <p>{home.aboutLanguages}</p>
     <a href={withBase(pagePath(locale, "about"))}>{home.aboutLink}</a>
   </div>
 </section>
@@ -83,10 +89,7 @@ const servicesLink = {
   <div class="content-inner">
     <h2 id="contact-title">{home.contactTitle}</h2>
     <p>{home.contactText}</p>
-    <p>{home.contactDetails}</p>
-    <a class="primary-link" href="mailto:info@loonenconsulting.com">
-      {home.contactLink}
-    </a>
+    <ContactActions locale={locale} />
   </div>
 </section>
 
@@ -95,7 +98,9 @@ const servicesLink = {
   .home-hero {
     width: min(100% - 2.5rem, 72rem);
     margin: 0 auto;
-    padding-block: clamp(5rem, 12vw, 10rem);
+    padding-block: clamp(4rem, 9vw, 8rem);
+    position: relative;
+    isolation: isolate;
   }
 
   .eyebrow {
@@ -108,14 +113,22 @@ const servicesLink = {
   }
 
   h1 {
-    max-width: 18ch;
+    max-width: 100%;
     margin: 0;
     color: var(--color-teal);
-    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-size: clamp(1.9rem, 4.5vw, 4rem);
     line-height: 1.08;
     text-wrap: balance;
   }
 
+  h1 span { display: block; }
+  .home-hero::before {
+    content: ""; position:absolute; inset:0 calc((min(100vw - 2.5rem, 72rem) - 100vw) / 2); z-index:-1; pointer-events:none;
+    background: radial-gradient(ellipse at 95% 18%, #ca66411a, transparent 42%), radial-gradient(ellipse at 80% 85%, #2c5f6a14, transparent 55%);
+  }
+  .location { margin-top: 1.5rem; font-size: .95rem; color: var(--color-teal); }
+  .about-name { font-size: 1.6rem; margin-bottom: .25rem; color: var(--color-teal); }
+  .about-role { margin-top: 0; font-weight: 700; }
   .hero-intro {
     max-width: 48rem;
     margin: 1.75rem 0 2rem;
@@ -188,6 +201,9 @@ const servicesLink = {
   .contact-section {
     background: var(--color-teal);
     color: white;
+    --call-background: white;
+    --call-color: var(--color-teal);
+    --call-hover: var(--color-paper);
   }
 
   .contact-section h2 {
@@ -204,6 +220,9 @@ const servicesLink = {
     color: var(--color-burgundy);
   }
 
+  @media (max-width: 480px) {
+    h1 { font-size: clamp(1.4rem, 5.8vw, 1.9rem); }
+  }
   @media (max-width: 760px) {
     .service-list {
       grid-template-columns: 1fr;

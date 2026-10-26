@@ -1,0 +1,22 @@
+---
+import { homeContent } from '../data/home';
+import { bookingHref, bookingHelp, externalLinks } from '../data/links';
+import type { Locale } from '../data/site';
+interface Props { locale: Locale; compact?: boolean; }
+const { locale, compact = false } = Astro.props;
+---
+<div class="contact-actions">
+  <a class="call-button" href={bookingHref(locale)}>{compact ? homeContent[locale].heroLink : homeContent[locale].contactLink}</a>
+  {!externalLinks.booking && <p class="booking-help">{bookingHelp[locale]}</p>}
+  {!compact && <div class="contact-links">
+    <a href="mailto:info@loonenconsulting.com">info@loonenconsulting.com</a>
+    {externalLinks.linkedIn && <a href={externalLinks.linkedIn} rel="me">LinkedIn</a>}
+  </div>}
+</div>
+<style>
+  .call-button { display:inline-block; padding:.85rem 1.2rem; border-radius:2px; background:var(--call-background,var(--color-teal)); color:var(--call-color,white); font-weight:700; text-decoration:none; max-width:100%; }
+  .call-button:hover { background:var(--call-hover,var(--color-burgundy)); color:var(--call-color,white); }
+  .booking-help { font-size:.9rem; margin:.8rem 0; }
+  .contact-links { display:flex; flex-wrap:wrap; gap:1rem 2rem; margin-top:1.3rem; }
+  .contact-links a { color:inherit; overflow-wrap:anywhere; }
+</style>
