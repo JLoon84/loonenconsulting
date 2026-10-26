@@ -1,10 +1,10 @@
 name: Build and publish website
 
 on:
-  # Check the build whenever development is pushed.
+  # Check the build whenever homepage-only is pushed.
   push:
     branches:
-      - development
+      - homepage-only
 
   # Publishing requires a manual run with this checkbox selected.
   workflow_dispatch:
@@ -52,11 +52,11 @@ jobs:
     needs: build
 
     # Pushing never publishes. Only an explicit manual run
-    # with publish selected, on development, can deploy.
+    # with publish selected, on homepage-only, can deploy.
     if: >-
       github.event_name == 'workflow_dispatch' &&
       inputs.publish &&
-      github.ref == 'refs/heads/development'
+      github.ref == 'refs/heads/homepage-only'
 
     runs-on: ubuntu-latest
 

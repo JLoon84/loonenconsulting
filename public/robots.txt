@@ -1,0 +1,6 @@
+# Allow search engines to crawl public pages.
+User-agent: *
+Allow: /
+
+# Location of the automatically generated sitemap.
+Sitemap: https://www.loonenconsulting.com/sitemap-index.xml

@@ -1,12 +1,5 @@
 ---
 import "../styles/global.css";
-import { legalContent } from "../data/legal";
-import { pagePath } from "../data/site";
-
-interface NavItem {
-  label: string;
-  href: string;
-}
 
 interface LanguageLink {
   label: "EN" | "DE" | "PT-BR";
@@ -24,7 +17,6 @@ interface Props {
   homeLabel: string;
   skipLabel: string;
   languageLabel: string;
-  navigation: NavItem[];
   languageLinks: LanguageLink[];
 }
 
@@ -38,12 +30,17 @@ const {
   homeLabel,
   skipLabel,
   languageLabel,
-  navigation,
   languageLinks,
 } = Astro.props;
 
 const base = import.meta.env.BASE_URL;
 const withBase = (path: string) => `${base}${path.replace(/^\/+/, "")}`;
+
+const legalPage = {
+  en: { href: "en/legal-notice/", label: "Legal notice" },
+  de: { href: "de/impressum/", label: "Impressum" },
+  "pt-BR": { href: "pt-br/informacoes-legais/", label: "Informações legais" },
+}[lang];
 
 const canonical = Astro.site
   ? new URL(withBase(canonicalPath), Astro.site)
@@ -69,12 +66,6 @@ const languageOptions = {
   },
 } as const;
 
-// UPDATED: Localize the main navigation's accessible label.
-const navigationLabel = {
-  en: "Main navigation",
-  de: "Hauptnavigation",
-  "pt-BR": "Navegação principal",
-}[lang];
 ---
 
 <!doctype html>
@@ -96,17 +87,8 @@ const navigationLabel = {
     <a class="skip-link" href="#main">{skipLabel}</a>
 
     <header class="site-header">
-      <a class="wordmark" href={withBase(homePath)}>{homeLabel}</a>
+      <a class="wordmark" href={withBase(homePath)}><img src={withBase("images/loonen.svg")} alt={homeLabel} width="250" height="90" /></a>
 
-      <nav class="main-nav" aria-label={navigationLabel}>
-        <ul class="nav-list">
-          {navigation.map((item) => (
-            <li>
-              <a href={withBase(item.href)}>{item.label}</a>
-            </li>
-          ))}
-        </ul>
-      </nav>
 
       <!-- UPDATED: Flag links replace the visible language abbreviations. -->
       <nav class="language-nav" aria-label={languageLabel}>
@@ -136,10 +118,9 @@ const navigationLabel = {
     </main>
 
     <footer class="site-footer">
-      <div class="footer-links">
-        <a href={withBase(pagePath(lang, "imprint"))}>{legalContent[lang].imprint}</a>
-        <span aria-hidden="true">·</span>
-        <a href={withBase(pagePath(lang, "privacy"))}>{legalContent[lang].privacy}</a>
+      <div class="footer-contact">
+        <a href="mailto:info@loonenconsulting.com">info@loonenconsulting.com</a>
+        <a href={withBase(legalPage.href)}>{legalPage.label}</a>
       </div>
       <span>© {new Date().getFullYear()} Loonen Consulting</span>
     </footer>
@@ -174,7 +155,10 @@ const navigationLabel = {
   .site-header {
     flex-wrap: wrap;
     border-bottom: 1px solid var(--color-border);
+    background: white;
   }
+
+  .wordmark img { display: block; width: clamp(150px, 22vw, 250px); height: auto; }
 
   .wordmark {
     color: var(--color-ink);
@@ -183,19 +167,7 @@ const navigationLabel = {
     white-space: nowrap;
   }
 
-  .nav-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.25rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
 
-  .nav-list a {
-    font-size: 0.95rem;
-    font-weight: 600;
-  }
 
   /* UPDATED: Keep flag controls together with generous click targets. */
   .language-nav {
@@ -227,7 +199,7 @@ const navigationLabel = {
   }
 
   .language-nav a:hover {
-    background: #eeebe7;
+    background: var(--color-surface);
   }
 
   /* UPDATED: An underline identifies the current language without colour alone. */
@@ -235,7 +207,7 @@ const navigationLabel = {
     border-bottom-color: var(--color-ink);
   }
 
-  .footer-links { display:flex; flex-wrap:wrap; gap:.6rem; }
+  .footer-contact { display:flex; flex-wrap:wrap; gap:.6rem 1.25rem; }
   .site-footer {
     flex-wrap:wrap;
     font-size:.9rem;
@@ -244,27 +216,7 @@ const navigationLabel = {
   }
 
   @media (max-width: 760px) {
-    .site-header {
-      align-items: center;
-      gap: 0.75rem 1rem;
-    }
-
-    /* UPDATED: Only the main navigation moves to a full-width row. */
-    .main-nav {
-      order: 3;
-      width: 100%;
-    }
-
-    .nav-list {
-      gap: 0.5rem 1rem;
-    }
-
-    .language-nav {
-      margin-left: auto;
-    }
-
-    .site-footer {
-      padding-block: 1.25rem;
-    }
+    .site-header { align-items:center; gap:.75rem; }
+    .language-nav { margin-left:auto; }
   }
 </style>

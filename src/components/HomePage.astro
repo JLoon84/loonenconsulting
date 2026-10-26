@@ -1,8 +1,7 @@
 ---
-// NEW: Homepage rendering and styles extracted from the route template.
 import ContactActions from "./ContactActions.astro";
 import { homeContent } from "../data/home";
-import { pagePath, type Locale } from "../data/site";
+import { type Locale } from "../data/site";
 
 interface Props {
   locale: Locale;
@@ -10,23 +9,21 @@ interface Props {
 
 const { locale } = Astro.props;
 const home = homeContent[locale];
-
-const base = import.meta.env.BASE_URL;
-const withBase = (path: string) => `${base}${path.replace(/^\/+/, "")}`;
-
-const servicesLink = {
-  en: "Explore services",
-  de: "Leistungen ansehen",
-  "pt-BR": "Conheça os serviços",
-}[locale];
 ---
 
-<section class="home-hero" aria-labelledby="page-title">
+<section
+  class="home-hero"
+  aria-labelledby="page-title"
+  style={`--hero-image: url("${import.meta.env.BASE_URL}images/home-header.webp")`}
+>
   <p class="eyebrow">{home.eyebrow}</p>
-  <h1 id="page-title">{home.titleLines.map((line, index) => <span>{line}{index === 0 && " "}</span>)}</h1>
+  <h1 id="page-title">
+    {home.titleLines.map((line, index) => (
+      <span>{line}{index === 0 && " "}</span>
+    ))}
+  </h1>
   <p class="hero-intro">{home.introduction}</p>
   <ContactActions locale={locale} compact />
-  <p class="location">{home.location}</p>
 </section>
 
 <section
@@ -39,11 +36,21 @@ const servicesLink = {
   </div>
 </section>
 
-<section class="content-section audience-section" aria-labelledby="audience-title">
-  <div class="content-inner"><h2 id="audience-title">{home.audienceTitle}</h2><p>{home.audienceText}</p></div>
+<section
+  class="content-section audience-section"
+  aria-labelledby="audience-title"
+>
+  <div class="content-inner">
+    <h2 id="audience-title">{home.audienceTitle}</h2>
+    <p>{home.audienceText}</p>
+  </div>
 </section>
 
-<section class="content-section" aria-labelledby="services-title">
+<section
+  id="services"
+  class="content-section services-section"
+  aria-labelledby="services-title"
+>
   <div class="content-inner">
     <h2 id="services-title">{home.servicesTitle}</h2>
     <div class="service-list">
@@ -54,35 +61,37 @@ const servicesLink = {
         </article>
       ))}
     </div>
-    <a href={withBase(pagePath(locale, "services"))}>
-      {servicesLink}
-    </a>
-  </div>
-</section>
-
-<section class="content-section" aria-labelledby="about-title">
-  <div class="content-inner">
-    <h2 id="about-title">{home.aboutTitle}</h2>
-    <h3 class="about-name">{home.aboutName}</h3>
-    <p class="about-role">{home.aboutRole}</p>
-    <p>{home.aboutText}</p>
-    <p>{home.aboutLanguages}</p>
-    <a href={withBase(pagePath(locale, "about"))}>{home.aboutLink}</a>
   </div>
 </section>
 
 <section
-  class="content-section insights-preview"
-  aria-labelledby="insights-title"
+  id="about"
+  class="content-section about-section"
+  aria-labelledby="about-title"
 >
-  <div class="content-inner">
-    <h2 id="insights-title">{home.insightsTitle}</h2>
-    <p>{home.insightsText}</p>
-    <a href={withBase(pagePath(locale, "insights"))}>{home.insightsLink}</a>
+  <div class="about-layout">
+    <div class="about-copy">
+      <h2 id="about-title">{home.aboutTitle}</h2>
+      <h3 class="about-name">{home.aboutName}</h3>
+      <p class="about-role">{home.aboutRole}</p>
+      <p>{home.aboutText}</p>
+      <p>{home.aboutLanguages}</p>
+    </div>
+
+    <img
+      class="about-portrait"
+      src={`${import.meta.env.BASE_URL}images/janne-loonen.webp`}
+      alt={home.aboutName}
+      width="900"
+      height="600"
+      loading="lazy"
+      decoding="async"
+    />
   </div>
 </section>
 
 <section
+  id="contact"
   class="content-section contact-section"
   aria-labelledby="contact-title"
 >
@@ -94,11 +103,11 @@ const servicesLink = {
 </section>
 
 <style>
-  /* NEW: These scoped styles now belong to the homepage component. */
   .home-hero {
-    width: min(100% - 2.5rem, 72rem);
-    margin: 0 auto;
-    padding-block: clamp(4rem, 9vw, 8rem);
+    width: 100%;
+    margin: 0;
+    padding: clamp(4rem, 9vw, 8rem)
+      max(1.25rem, calc((100% - 72rem) / 2));
     position: relative;
     isolation: isolate;
   }
@@ -121,14 +130,39 @@ const servicesLink = {
     text-wrap: balance;
   }
 
-  h1 span { display: block; }
-  .home-hero::before {
-    content: ""; position:absolute; inset:0 calc((min(100vw - 2.5rem, 72rem) - 100vw) / 2); z-index:-1; pointer-events:none;
-    background: radial-gradient(ellipse at 95% 18%, #ca66411a, transparent 42%), radial-gradient(ellipse at 80% 85%, #2c5f6a14, transparent 55%);
+  h1 span {
+    display: block;
   }
-  .location { margin-top: 1.5rem; font-size: .95rem; color: var(--color-teal); }
-  .about-name { font-size: 1.6rem; margin-bottom: .25rem; color: var(--color-teal); }
-  .about-role { margin-top: 0; font-weight: 700; }
+
+  .home-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      linear-gradient(
+        90deg,
+        rgba(247, 245, 242, .96) 0%,
+        rgba(247, 245, 242, .90) 44%,
+        rgba(247, 245, 242, .25) 100%
+      ),
+      var(--hero-image);
+    background-size: cover;
+    background-position: center, center right;
+  }
+
+  .about-name {
+    font-size: 1.6rem;
+    margin-bottom: .25rem;
+    color: var(--color-teal);
+  }
+
+  .about-role {
+    margin-top: 0;
+    font-weight: 700;
+  }
+
   .hero-intro {
     max-width: 48rem;
     margin: 1.75rem 0 2rem;
@@ -144,6 +178,14 @@ const servicesLink = {
     padding-block: clamp(3.5rem, 8vw, 6rem);
   }
 
+  .services-section {
+    padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .about-section {
+    padding-top: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
   .content-section h2 {
     max-width: 24ch;
     margin: 0 0 1.25rem;
@@ -157,9 +199,34 @@ const servicesLink = {
     max-width: 54rem;
   }
 
-  .decision-section,
-  .insights-preview {
-    background: #eeebe7;
+  .decision-section {
+    background: var(--color-surface);
+  }
+
+  .about-layout {
+    width: min(100% - 2.5rem, 68rem);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, .85fr);
+    align-items: center;
+    gap: clamp(2rem, 5vw, 4rem);
+  }
+
+  .about-copy {
+    min-width: 0;
+  }
+
+  .about-portrait {
+    display: block;
+    width: min(100%, 320px);
+    height: auto;
+    aspect-ratio: 1 / 1;
+    justify-self: end;
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+
+    object-fit: cover;
+    object-position: center;
   }
 
   .service-list {
@@ -187,22 +254,22 @@ const servicesLink = {
     display: inline-block;
     padding: 0.8rem 1.1rem;
     border-radius: 2px;
-    background: var(--color-teal);
-    color: white;
+    background: var(--color-copper);
+    color: var(--color-ink);
     font-weight: 700;
     text-decoration: none;
   }
 
   .primary-link:hover {
-    background: var(--color-burgundy);
-    color: white;
+    background: var(--color-brown);
+    color: var(--color-paper);
   }
 
   .contact-section {
     background: var(--color-teal);
     color: white;
-    --call-background: white;
-    --call-color: var(--color-teal);
+    --call-background: var(--color-copper);
+    --call-color: var(--color-ink);
     --call-hover: var(--color-paper);
   }
 
@@ -210,20 +277,32 @@ const servicesLink = {
     color: white;
   }
 
-  .contact-section .primary-link {
-    background: white;
-    color: var(--color-teal);
-  }
-
-  .contact-section .primary-link:hover {
-    background: var(--color-paper);
-    color: var(--color-burgundy);
-  }
-
   @media (max-width: 480px) {
-    h1 { font-size: clamp(1.4rem, 5.8vw, 1.9rem); }
+    h1 {
+      font-size: clamp(1.4rem, 5.8vw, 1.9rem);
+    }
   }
+
   @media (max-width: 760px) {
+    .home-hero::before {
+      background-image:
+        linear-gradient(
+          rgba(247, 245, 242, .88),
+          rgba(247, 245, 242, .88)
+        ),
+        var(--hero-image);
+      background-position: center;
+    }
+
+    .about-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .about-portrait {
+      width: min(100%, 320px);
+      justify-self: start;
+    }
+
     .service-list {
       grid-template-columns: 1fr;
       gap: 2rem;

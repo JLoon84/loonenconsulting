@@ -1,0 +1,42 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { homePath } from '../../data/site';
+---
+<SiteLayout
+  lang="pt-BR"
+  title="Informações legais | Loonen Consulting"
+  description="Informações legais da Loonen Consulting, Janne Loonen."
+  canonicalPath="pt-br/informacoes-legais/"
+  homePath={homePath('pt-BR')}
+  homeLabel="Loonen Consulting"
+  skipLabel="Ir para o conteúdo"
+  languageLabel="Idioma"
+  languageLinks={[
+    { label: 'EN', href: 'en/legal-notice/' },
+    { label: 'DE', href: 'de/impressum/' },
+    { label: 'PT-BR', href: 'pt-br/informacoes-legais/', current: true },
+  ]}
+>
+  <article class="legal-page">
+    <h1>Informações legais</h1>
+    <h2>Informações nos termos do § 5 da Lei Alemã de Serviços Digitais (DDG)</h2>
+    <address>
+      Janne Loonen<br />
+      Demminer Straße 3<br />
+      13355 Berlin<br />
+      Alemanha
+    </address>
+
+    <h2>Contato</h2>
+    <p>Telefone: <a href="tel:+4915751513077">+49 1575 1513 077</a><br />
+      E-mail: <a href="mailto:info@loonenconsulting.com">info@loonenconsulting.com</a><br />
+      Site: <a href="https://www.loonenconsulting.com">www.loonenconsulting.com</a>
+    </p>
+  </article>
+</SiteLayout>
+<style>
+  .legal-page { width:min(100% - 2.5rem, 52rem); margin:auto; padding-block:clamp(3rem,8vw,6rem); }
+  h1 { color:var(--color-teal); font-size:clamp(2.2rem,5vw,3.5rem); }
+  h2 { margin-top:2rem; color:var(--color-teal); font-size:1.25rem; }
+  address { font-style:normal; line-height:1.8; }
+</style>

@@ -1,0 +1,31 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import HomePage from '../../components/HomePage.astro';
+import { homeContent } from '../../data/home';
+import { locales, homePath, site, type Locale } from '../../data/site';
+
+export function getStaticPaths() {
+  return locales.map(locale => ({
+    params: { locale: locale === 'pt-BR' ? 'pt-br' : locale },
+    props: { locale },
+  }));
+}
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const data = site[locale];
+const languageLinks = locales.map(language => ({
+  label: site[language].code,
+  href: homePath(language),
+  current: language === locale,
+}));
+---
+<SiteLayout
+  lang={locale} title="Loonen Consulting"
+  description={homeContent[locale].introduction}
+  canonicalPath={homePath(locale)} homePath={homePath(locale)}
+  homeLabel={data.homeLabel} skipLabel={data.skipLabel}
+  languageLabel={data.languageLabel}
+  languageLinks={languageLinks}
+>
+  <HomePage locale={locale} />
+</SiteLayout>

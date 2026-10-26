@@ -1,10 +1,13 @@
 :root {
   color-scheme: light;
-  --color-teal: #2c5f6a;
+  --color-teal: #244d56;
   --color-orange: #ca6641;
+  --color-copper: #ca6641;
   --color-paper: #f7f5f2;
   --color-ink: #1e1e1e;
   --color-burgundy: #522a27;
+  --color-brown: #522a27;
+  --color-surface: #efedeb;
   --color-border: #c9c2bc;
   --font-body: Arial, Helvetica, sans-serif;
 }

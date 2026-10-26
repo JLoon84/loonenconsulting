@@ -1,0 +1,44 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { homePath } from '../../data/site';
+
+const withBase = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`;
+---
+<SiteLayout
+  lang="de"
+  title="Impressum | Loonen Consulting"
+  description="Impressum von Loonen Consulting, Janne Loonen."
+  canonicalPath="de/impressum/"
+  homePath={homePath('de')}
+  homeLabel="Loonen Consulting"
+  skipLabel="Zum Inhalt springen"
+  languageLabel="Sprache"
+  languageLinks={[
+    { label: 'EN', href: 'en/legal-notice/' },
+    { label: 'DE', href: 'de/impressum/', current: true },
+    { label: 'PT-BR', href: 'pt-br/informacoes-legais/' },
+  ]}
+>
+  <article class="impressum">
+    <h1>Impressum</h1>
+    <h2>Angaben gemäß § 5 DDG</h2>
+    <address>
+      Janne Loonen<br />
+      Demminer Straße 3<br />
+      13355 Berlin<br />
+      Deutschland
+    </address>
+
+    <h2>Kontakt</h2>
+    <p>Telefon: <a href="tel:+4915751513077">+49 1575 1513 077</a><br />
+      E-Mail: <a href="mailto:info@loonenconsulting.com">info@loonenconsulting.com</a><br />
+      URL: <a href="https://www.loonenconsulting.com">www.loonenconsulting.com</a>
+    </p>
+  </article>
+</SiteLayout>
+<style>
+  .impressum { width:min(100% - 2.5rem, 52rem); margin:auto; padding-block:clamp(3rem,8vw,6rem); }
+  h1 { color:var(--color-teal); font-size:clamp(2.2rem,5vw,3.5rem); }
+  h2 { margin-top:2rem; color:var(--color-teal); font-size:1.25rem; }
+  address { font-style:normal; line-height:1.8; }
+</style>
