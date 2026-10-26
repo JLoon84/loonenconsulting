@@ -1,12 +1,10 @@
 name: Build and publish website
 
 on:
-  # Check the build whenever homepage-only is pushed.
   push:
     branches:
       - homepage-only
 
-  # Publishing requires a manual run with this checkbox selected.
   workflow_dispatch:
     inputs:
       publish:
@@ -15,14 +13,13 @@ on:
         type: boolean
         default: false
 
-# Build jobs only need read access to the repository.
 permissions:
   contents: read
 
 jobs:
   build:
     name: Build Astro website
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Check out repository
@@ -34,16 +31,14 @@ jobs:
           node-version: "24"
           cache: npm
 
-      # Install the exact dependencies in package-lock.json.
       - name: Install dependencies
         run: npm ci
 
       - name: Build website
         run: npm run build
 
-      # Upload only Astro's generated static output.
       - name: Upload website artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v5
         with:
           path: ./dist
 
@@ -51,14 +46,12 @@ jobs:
     name: Publish to GitHub Pages
     needs: build
 
-    # Pushing never publishes. Only an explicit manual run
-    # with publish selected, on homepage-only, can deploy.
     if: >-
       github.event_name == 'workflow_dispatch' &&
       inputs.publish &&
       github.ref == 'refs/heads/homepage-only'
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     permissions:
       contents: read
@@ -69,7 +62,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
-    # Avoid simultaneous deployments.
     concurrency:
       group: github-pages
       cancel-in-progress: false
