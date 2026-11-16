@@ -42,6 +42,12 @@ const legalPage = {
   "pt-BR": { href: "pt-br/informacoes-legais/", label: "Informações legais" },
 }[lang];
 
+const privacyPage = {
+  en: { href: "en/privacy/", label: "Privacy" },
+  de: { href: "de/datenschutz/", label: "Datenschutz" },
+  "pt-BR": { href: "pt-br/privacidade/", label: "Privacidade" },
+}[lang];
+
 const canonical = Astro.site
   ? new URL(withBase(canonicalPath), Astro.site)
   : undefined;
@@ -121,6 +127,7 @@ const languageOptions = {
       <div class="footer-contact">
         <a href="mailto:info@loonenconsulting.com">info@loonenconsulting.com</a>
         <a href={withBase(legalPage.href)}>{legalPage.label}</a>
+        <a href={withBase(privacyPage.href)}>{privacyPage.label}</a>
       </div>
       <span>© {new Date().getFullYear()} Loonen Consulting</span>
     </footer>

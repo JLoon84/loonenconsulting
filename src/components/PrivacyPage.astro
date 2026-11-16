@@ -1,0 +1,214 @@
+---
+import { privacyPolicies } from "../data/privacy";
+import type { Locale } from "../data/site";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const policy = privacyPolicies[locale];
+
+// Render the `**bold**` lead-ins used throughout the policy text.
+const inline = (text: string) =>
+  text
+    .split(/(\*\*[^*]+\*\*)/g)
+    .filter(Boolean)
+    .map((part) =>
+      part.startsWith("**") && part.endsWith("**")
+        ? { bold: true, text: part.slice(2, -2) }
+        : { bold: false, text: part },
+    );
+---
+
+<article class="legal-page policy">
+  <header>
+    <h1>{policy.title}</h1>
+    <p class="updated">{policy.updatedLabel}: {policy.updated}</p>
+  </header>
+
+  <nav class="toc" aria-label={policy.contents}>
+    <h2>{policy.contents}</h2>
+    <ol>
+      {
+        policy.sections.map((section) => (
+          <li>
+            <a href={`#${section.id}`}>{section.title}</a>
+          </li>
+        ))
+      }
+    </ol>
+  </nav>
+
+  {
+    policy.sections.map((section) => (
+      <section id={section.id} class="policy-section">
+        <h2>{section.title}</h2>
+        {section.blocks.map((block) => {
+          if (block.kind === "address") {
+            return (
+              <address>
+                {block.lines.map((line, index) => (
+                  <>
+                    {index > 0 && <br />}
+                    {line}
+                  </>
+                ))}
+              </address>
+            );
+          }
+
+          if (block.kind === "email") {
+            return (
+              <p>
+                <strong>{block.label}:</strong>{" "}
+                <a href={`mailto:${block.address}`}>{block.address}</a>
+              </p>
+            );
+          }
+
+          if (block.kind === "subheading") {
+            return <h3>{block.text}</h3>;
+          }
+
+          if (block.kind === "list") {
+            return (
+              <ul>
+                {block.items.map((item) => (
+                  <li>
+                    {inline(item).map((part) =>
+                      part.bold ? <strong>{part.text}</strong> : part.text,
+                    )}
+                  </li>
+                ))}
+              </ul>
+            );
+          }
+
+          return (
+            <p>
+              {inline(block.text).map((part) =>
+                part.bold ? <strong>{part.text}</strong> : part.text,
+              )}
+            </p>
+          );
+        })}
+      </section>
+    ))
+  }
+
+  <p class="source">{policy.source}</p>
+</article>
+
+<style>
+  .legal-page {
+    width: min(100% - 2.5rem, 52rem);
+    margin: auto;
+    padding-block: clamp(3rem, 8vw, 6rem);
+  }
+
+  h1 {
+    color: var(--color-teal);
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+
+  .policy header {
+    margin-bottom: 2.5rem;
+  }
+
+  .updated {
+    margin: 0.75rem 0 0;
+    font-size: 0.95rem;
+    color: var(--color-burgundy);
+  }
+
+  a {
+    overflow-wrap: anywhere;
+  }
+
+  /* Table of contents */
+  .toc {
+    margin-bottom: 3rem;
+    padding: 1.5rem 1.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    background: var(--color-surface);
+  }
+
+  .toc h2 {
+    margin-top: 0;
+    font-size: 1.05rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-burgundy);
+  }
+
+  .toc ol {
+    margin: 0;
+    padding-left: 1.25rem;
+    columns: 2;
+    column-gap: 2.5rem;
+  }
+
+  .toc li {
+    margin-bottom: 0.4rem;
+    break-inside: avoid;
+  }
+
+  .policy-section {
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--color-border);
+    scroll-margin-top: 1.5rem;
+  }
+
+  .policy-section h2 {
+    margin-bottom: 1rem;
+    color: var(--color-teal);
+    font-size: clamp(1.35rem, 2.6vw, 1.75rem);
+    line-height: 1.25;
+    scroll-margin-top: 1.5rem;
+  }
+
+  .policy-section h3 {
+    margin: 1.75rem 0 0.5rem;
+    font-size: 1.05rem;
+    color: var(--color-burgundy);
+  }
+
+  .policy-section p,
+  .policy-section ul {
+    margin: 0 0 1rem;
+  }
+
+  .policy-section ul {
+    padding-left: 1.25rem;
+  }
+
+  .policy-section li {
+    margin-bottom: 0.6rem;
+  }
+
+  address {
+    margin: 0 0 1rem;
+    padding-left: 1rem;
+    border-left: 3px solid var(--color-border);
+    font-style: normal;
+    line-height: 1.8;
+  }
+
+  .source {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border);
+    font-size: 0.85rem;
+    color: var(--color-burgundy);
+  }
+
+  @media (max-width: 640px) {
+    .toc ol {
+      columns: 1;
+    }
+  }
+</style>

@@ -1,0 +1,22 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import PrivacyPage from '../../components/PrivacyPage.astro';
+import { homePath } from '../../data/site';
+---
+<SiteLayout
+  lang="en"
+  title="Privacy policy | Loonen Consulting"
+  description="Privacy policy of Loonen Consulting: how personal data is processed on this website."
+  canonicalPath="en/privacy/"
+  homePath={homePath('en')}
+  homeLabel="Loonen Consulting"
+  skipLabel="Skip to content"
+  languageLabel="Language"
+  languageLinks={[
+    { label: 'EN', href: 'en/privacy/', current: true },
+    { label: 'DE', href: 'de/datenschutz/' },
+    { label: 'PT-BR', href: 'pt-br/privacidade/' },
+  ]}
+>
+  <PrivacyPage locale="en" />
+</SiteLayout>
